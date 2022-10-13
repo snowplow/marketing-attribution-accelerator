@@ -1,0 +1,23 @@
+[build]
+publish = 'public'
+command = './scripts/build.sh build $BUILD_OUTPUT_PATH'
+[build.environment]
+HUGO_VERSION = '0.104.1'
+HUGO_BASEURL = 'https://docs.snowplow.io/accelerators/{{YOUR BASE URL}}/'
+BUILD_OUTPUT_PATH = '/accelerators/{{YOUR BASE URL}}/'
+
+[context.production]
+[context.production.environment]
+HUGO_ENV = 'production'
+
+[context.deploy-preview]
+command = './scripts/build.sh build $BUILD_OUTPUT_PATH $DEPLOY_PRIME_URL'
+
+[context.branch-deploy]
+command = './scripts/build.sh build $BUILD_OUTPUT_PATH $DEPLOY_PRIME_URL'
+
+[[redirects]]
+from = "/*"
+to = "/accelerators/{{YOUR BASE URL}}/:splat"
+force = true
+status = 301

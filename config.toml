@@ -1,0 +1,6 @@
+title = "{{ACCELERATOR TEMPLATE}}"
+baseURL = "https://docs.snowplow.io/accelerators/{{YOUR BASE URL}}/"
+
+[params]
+  description = "{{ACCELERATOR DESCRIPTION}}"
+  author = "{{AUTHOR NAMES}}"

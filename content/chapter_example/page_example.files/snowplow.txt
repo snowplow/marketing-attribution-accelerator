@@ -1,0 +1,1 @@
+Snowplow is a behavioral data platform, built to empower data teams and solve today's most complex data challenges. 
