@@ -1,3 +1,3 @@
 [submodule "accelerator-web-ui-template"]
 	path = accelerator-web-ui-template
-	url = https://github.com/snowplow-incubator/accelerator-web-ui-template.git
+	url = git@github.com:snowplow-incubator/accelerator-web-ui-template.git
