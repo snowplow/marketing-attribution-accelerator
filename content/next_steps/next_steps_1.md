@@ -66,11 +66,11 @@ dbt test --selector snowplow_web_lean_tests
 
 Now you can run fractribution analysis on your own data that has been modeled by the snowplow_web package. If you need to, you can update the conversion start and end dates, and any other variables that may have changed (see [Modeling: Set up and run dbt package](/accelerators/fractribution/modeling/modeling_1/) and [Modeling: Create Fractribution report table](/accelerators/fractribution/modeling/modeling_2/) for a refresher on these variables). 
 
-For the example, channel spend has been set at 10000 per channel. To modify this to use your own data, you will need to modify this script `[dbt_project_name]/dbt_packages/fractribution/models/snowflake/s_channel_spend.sql` to join the channel names to your ad spend per channel for the given window, e.g. (a simplified example):
+For the example, channel spend has been set at 10000 per channel. To modify this to use your own data, you will need to copy the channel_spend.sql macro from `[dbt_project_name]/dbt_packages/fractribution/macros/channel_spend.sql` and add it to your own dbt project's macros folder. Update the sql in this macro to join the channel names to your ad spend per channel for the given window, e.g. (a simplified example):
 
 ```
 WITH channels AS (
-    SELECT ARRAY_AGG(DISTINCT channel) AS c FROM {{ ref('s_channel_counts') }}
+    SELECT ARRAY_AGG(DISTINCT channel) AS c FROM {{ ref('channel_counts') }}
 ),
 ad_spend AS (
     SELECT 
@@ -87,7 +87,22 @@ channels c,
 LATERAL FLATTEN(c) channel
 LEFT JOIN ad_spend a on c.channel=a.channel
 ```
-The output table should look similar to the following (with your own spend values (and channels, if those were updated in the channel_classification macro)):
+
+Note: if you didn't modify any macros in the modelling steps, you will need to add the following to your `dbt_project.yml` file (replacing `your_project_name` with the name of your project, found at the top of the dbt_project.yml file after `name:`):
+
+```yml
+dispatch:
+  - macro_namespace: fractribution_snowplow
+    search_order: ['your_project_name', 'fractribution_snowplow']
+```
+
+
+When these have been updated, run the fractribution package again, with the --full-refresh flag:
+```
+dbt run --select fractribution --full-refresh
+```
+
+The output table for channel spend should look similar to the following example (with your own spend values (and channels, if those were updated in the channel_classification macro)):
 
 | channel           | spend  |
 | ----------------- | ------ |
@@ -98,11 +113,6 @@ The output table should look similar to the following (with your own spend value
 | Referral          | 1010   |
 | Unmatched_Channel | 1490   |
 | Video             | 999    |
-
-When these have been updated, run the fractribution package again, with the --full-refresh flag:
-```
-dbt run --select fractribution --full-refresh
-```
 
 ***
 Then run the script (or Docker container) again:

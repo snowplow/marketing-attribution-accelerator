@@ -4,7 +4,7 @@ weight = 2
 post = ""
 +++
 
-The page_views table will be used to demonstrate how to set up and run the fractribution dbt package to create the tables needed for fractional attribution.
+The snowplow_web_page_views (created by the snowplow_web package) and sample_events (data provided in the [web accelerator](https://docs.snowplow.io/accelerators/web/upload/upload_1/)) tables will be used to demonstrate how to set up and run the fractribution dbt package to create the tables needed for fractional attribution.
 
 ***
 
@@ -22,8 +22,19 @@ For the sake of simplicity we have selected the variables that you will most lik
 - `path_transforms`: An array of path transforms and their arguments (see below section **Path Transform Options**)
 - `consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
 
+The default source schemas and tables used by the fractribution package are:
+- *atomic.events* for the Snowplow event data 
+- *atomic_derived.snowplow_web_page_views* for the page_views data
 
-Below is an example snippet of these variables in `dbt_project.yml`:
+If any of these differ in your warehouse, set the correct names as variables in your dbt_project.yml, e.g.:
+- `snowflake__atomic_schema`: 'test_atomic'
+- `snowflake__events_table`: 'sample_events'
+- `snowflake__page_views_schema`: 'test_atomic_derived'
+- `snowflake__page_views_table`: 'snowplow_web_page_views_scratch'
+
+You only need to set the variables for those that differ from the default.
+
+Below is an example snippet of these variables in your `dbt_project.yml`:
 
 ```yml
 vars:
@@ -33,7 +44,8 @@ vars:
   path_lookback_steps: 0
   path_lookback_days: 30
   path_transforms: [['Exposure', null]]
-  consider_intrasession_channels: false 
+  consider_intrasession_channels: false
+  snowflake__events_table: 'sample_events'
 ```
 
 **Path Transform Options**
@@ -51,30 +63,36 @@ There are five path transform options available:
 
 **Configure the conversion_clause macro**
 
-The conversion_macro filters Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. 
+The conversion_macro specifies how to filter Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. 
 
-Navigate to `[dbt_project_name]/dbt_packages/fractribution/macros/conversion_clause.sql` if you wish to change this definition of a conversion.
+If you wish to change this filter, copy the `conversion_clause.sql` file from the macros folder in the fractribution package (at `[dbt_project_name]/dbt_packages/fractribution/macros/conversion_clause.sql`) and add it to the macros folder of your own dbt project. Update the filter and save the file.
+
 
 **Configure the conversion_value macro**
 
 The conversion_value macro specifies either a single column (or a calculated value) that represents the value associated with that conversion. The default is `tr_total`, but `revenue` or a calculation using `revenue` and `discount_amount` from the default ecommerce schema, for example, could similarly be used.
 
-Navigate to `[dbt_project_name]/dbt_packages/fractribution/macros/conversion_value.sql` if you wish to change this value.
+If you wish to change this value, copy the `conversion_value.sql` file from the macros folder in the fractribution package (at `[dbt_project_name]/dbt_packages/fractribution/macros/conversion_value.sql`) and add it to the macros folder of your own dbt project. Update the value and save the file.
 
 **Configure the default channel_classification macro**
 
 The channel_classification macro is used to perform channel classifications. This can be altered to generate your expected channels if they differ from the channels generated in the default macro. It is highly recommended that you examine and configure this macro, as the default values will not consider any custom marketing parameters.
 
-Navigate to `[dbt_project_name]/dbt_packages/fractribution/macros/channel_classification.sql` if you wish to change this macro.
+If you wish to change the channel classification macro, copy the `channel_classification.sql` file from the macros folder in the fractribution package (at `[dbt_project_name]/dbt_packages/fractribution/macros/channel_classification.sql`) and add it to the macros folder of your own dbt project. Update the SQL and save the file.
+ 
+ 
+If you have added one or more of these macros to your own project's macros folder, the next step is to add the following to your dbt_project.yml file (replacing `your_project_name` with the name of your project, found at the top of the dbt_project.yml file after `name:`):
 
+```yml
+dispatch:
+  - macro_namespace: fractribution_snowplow
+    search_order: ['your_project_name', 'fractribution_snowplow']
+```
+
+This instructs dbt to look for files in your macros folder first before looking in the fractribution package's macros folder.
 ***
 
-#### **Step 3:** Create the required UDFs
-
-Create the required UDFs by running the UDFs macro - `dbt run-operation create_snowflake_udfs`. This only needs to be done once as the UDFs created are permanent.
-
-***
-#### **Step 4:** Run the model
+#### **Step 3:** Run the model
 
 Execute the following either through your CLI or from within dbt Cloud
 
@@ -86,12 +104,12 @@ This should take a couple of minutes to run.
 
 ***
 
-#### **Step 5:** Check the output schema
-Head to the SQL editor of your choice (e.g.: Snowflake Web UI) to check the model's output. You should be able to see the new schema `fractribution_snowplow`.
+#### **Step 4:** Check the output schema
+Head to the SQL editor of your choice (e.g.: Snowflake Web UI) to check the model's output. You should be able to see the data under the schema specified in your profiles.yml.
 
 ***
 
-#### **Step 6:** Explore the data created by your dbt models
+#### **Step 5:** Explore the data created by your dbt models
 
 Take some time to familiarise yourself with the derived tables. These tables are used in the next step to fractionally attribute revenue to channels. Tables output by the fractribution dbt package are:
 

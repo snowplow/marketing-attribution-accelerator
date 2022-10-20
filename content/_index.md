@@ -58,7 +58,7 @@ gantt
 
 #### Prerequisites
 
-- It is assumed that you have either already run the [snowplow-web](https://hub.getdbt.com/snowplow/snowplow_web/latest/) dbt package, or have a snowplow_web_page_views table already in your data warehouse. If not, we recommend following the first two steps of the [Advanced Analytics for Web](https://docs.snowplow.io/accelerators/web) accelerator.
+- It is assumed that you have either already run the [snowplow-web](https://hub.getdbt.com/snowplow/snowplow_web/latest/) dbt package, or have a snowplow_web_page_views and Snowplow events tables already in your data warehouse. If not, we recommend following the first two steps of the [Advanced Analytics for Web](https://docs.snowplow.io/accelerators/web) accelerator.
 
 **Modeling**
 - dbt CLI installed / dbt Cloud account available
@@ -71,7 +71,7 @@ gantt
 - Web app to implement tracking
 
 {{% notice info %}}
-Please note that Snowflake will be used for illustration. The snowplow-web dbt package also supports **BigQuery, Databricks, Postgres** and **Redshift**. Further adapter support for this accelerator coming soon!
+Please note that Snowflake will be used for illustration. The snowplow-web dbt package also supports **BigQuery, Databricks, Postgres** and **Redshift**. Further adapter support for this accelerator will be added in future.
 {{% /notice %}}
 
 ***
