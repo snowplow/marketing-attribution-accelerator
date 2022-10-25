@@ -1,10 +1,10 @@
 +++
-title= "Set up and run dbt Package"
+title= "Set-up and run dbt Package"
 weight = 2
 post = ""
 +++
 
-The snowplow_web_page_views (created by the snowplow_web package) and sample_events (data provided in the [web accelerator](https://docs.snowplow.io/accelerators/web/upload/upload_1/)) tables will be used to demonstrate how to set up and run the fractribution dbt package to create the tables needed for fractional attribution.
+The snowplow_web_page_views (created by the snowplow_web package) and sample_events (data provided in the [web analytics accelerator](https://docs.snowplow.io/accelerators/web/upload/upload_1/)) tables will be used to demonstrate how to set up and run the fractribution dbt package to create the tables needed for fractional attribution.
 
 ***
 
@@ -27,10 +27,10 @@ The default source schemas and tables used by the fractribution package are:
 - *atomic_derived.snowplow_web_page_views* for the page_views data
 
 If any of these differ in your warehouse, set the correct names as variables in your dbt_project.yml, e.g.:
-- `snowflake__atomic_schema`: 'test_atomic'
-- `snowflake__events_table`: 'sample_events'
-- `snowflake__page_views_schema`: 'test_atomic_derived'
-- `snowflake__page_views_table`: 'snowplow_web_page_views_scratch'
+- `atomic_schema`: 'test_atomic'
+- `events_table`: 'sample_events'
+- `page_views_schema`: 'test_atomic_derived'
+- `page_views_table`: 'snowplow_web_page_views_scratch'
 
 You only need to set the variables for those that differ from the default.
 

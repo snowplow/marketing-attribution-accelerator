@@ -8,7 +8,7 @@ weight = 1
 
 !['logo-banner'](images/logo_banner_2.png)
 
-Welcome to the **Fractribution** accelerator. This is a tutorial for a Snowplow accelerator that demonstrates how to run fractional attribution analysis on Snowplow data, coined 'Fractribution'. Fractional attribution allows you to attribute the value of a conversion to one or more channels depending on the conversion pathway. As a result, it becomes possible to determine the revenue per channel, as well as the return on advertising spend (ROAS) if you have spend data for each marketing channel. Once finished, you will be able to build a deeper understanding of customer behaviour on your website and use your data to influence business decisions.
+Welcome to the **Fractribution** accelerator. This is an accelerator to demonstrate and guide you on how to run fractional attribution analysis on Snowplow data, coined 'Fractribution'. Fractional attribution allows you to attribute the value of a conversion to one or more channels depending on the conversion pathway. As a result, it becomes possible to determine the revenue per channel, as well as the return on advertising spend (ROAS) if you have spend data for each marketing channel. Once finished, you will be able to build a deeper understanding of customer behaviour on your website and use your data to influence business decisions.
 
 Here you will learn to:
 
@@ -21,7 +21,7 @@ Here you will learn to:
 
 #### Who is this guide for?
 
-- Data practitioners who would like to get familiar with further options for modelling Snowplow data.
+- Data practitioners who would like to get familiar with further options for modeling Snowplow data.
 - Data practitioners who want to learn how to use the fractribution dbt package, to gain insight into ROAS figures using fractional attribution as quickly as possible.
 
 ***

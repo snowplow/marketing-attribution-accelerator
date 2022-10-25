@@ -13,7 +13,7 @@ At this stage you should:
 
 #### **Step 1:** Complete refresh of your Snowplow web package (Optional)
 
-If you would like to use your current dbt environment that you set-up during modelling the sample data you might want to start from scratch.
+If you would like to use your current dbt environment that you set-up during modeling the sample data you might want to start from scratch.
 
 While you can drop and recompute the incremental tables within this package using the standard `--full-refresh` flag, all manifest tables are protected from being dropped in production. Without dropping the manifest during a full refresh, the selected derived incremental tables would be dropped but the processing of events would resume from where the package left off (as captured by the `snowplow_web_incremental_manifest` table) rather than your `snowplow__start_date`.
 
@@ -88,7 +88,7 @@ LATERAL FLATTEN(c) channel
 LEFT JOIN ad_spend a on c.channel=a.channel
 ```
 
-Note: if you didn't modify any macros in the modelling steps, you will need to add the following to your `dbt_project.yml` file (replacing `your_project_name` with the name of your project, found at the top of the dbt_project.yml file after `name:`):
+Note: if you didn't modify any macros in the modeling steps, you will need to add the following to your `dbt_project.yml` file (replacing `your_project_name` with the name of your project, found at the top of the dbt_project.yml file after `name:`):
 
 ```yml
 dispatch:
@@ -97,7 +97,7 @@ dispatch:
 ```
 
 
-When these have been updated, run the fractribution package again, with the --full-refresh flag:
+When these have been updated, run the fractribution package again, with the `--full-refresh` flag:
 ```
 dbt run --select fractribution --full-refresh
 ```

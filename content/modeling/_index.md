@@ -21,6 +21,6 @@ flowchart LR
 {{</mermaid >}}
 
 
-In this chapter you will learn how to set up and run the fractribution package and script to output a fractional attribution report using the sample data.
+In this chapter you will learn how to set-up and run the fractribution package and script to output a fractional attribution report using the sample data.
 
 To create a fractional attribution table in your Snowflake warehouse, this tutorial uses the [fractribution](https://hub.getdbt.com/snowplow/fractribution/latest/) dbt package and also a Python script (or Docker container). 

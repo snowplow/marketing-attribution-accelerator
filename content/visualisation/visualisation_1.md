@@ -1,5 +1,5 @@
 +++
-title = "Example Report Table"
+title = "Example Table and Visualisation"
 post = ""
 weight = 1
 +++
@@ -17,3 +17,7 @@ Below is an example of a fractional attribution report table, which shows the ca
 | 2022-07-03                | 2022-08-01              | Video             | 1.5         | 29.6    | 10000.0| 0.0  |
 
 This table shows the ROAS figures for each channel during the conversion window specified. It also shows the conversions attributed to each channel, and the revenue associated with that channel. In our example we have a uniform spend ($10000) for each channel but you can substitute and join this to your own internal dataset to accurately account for spend and ROAS for your own marketing budgets, see [Next steps](/accelerators/fractribution/next_steps/next_steps_1/).
+
+***
+The above data can also be visualised, for example:
+![conversions_and_roas](../images/conversions_roas_by_channel.png)
