@@ -4,7 +4,7 @@ weight = 2
 post = ""
 +++
 
-The snowplow_web_page_views (created by the snowplow_web package) and sample_events (data provided in the [web analytics accelerator](https://docs.snowplow.io/accelerators/web/upload/upload_1/)) tables will be used to demonstrate how to set up and run the fractribution dbt package to create the tables needed for fractional attribution.
+The snowplow_web_page_views (created by the snowplow_web package) and sample_events (data provided in the [web analytics accelerator](https://docs.snowplow.io/accelerators/web/upload/upload_1/)) tables will be used to demonstrate how to set-up and run the fractribution dbt package to create the tables needed for fractional attribution.
 
 ***
 

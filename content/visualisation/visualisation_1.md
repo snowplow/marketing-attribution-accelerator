@@ -20,4 +20,4 @@ This table shows the ROAS figures for each channel during the conversion window 
 
 ***
 The above data can also be visualised, for example:
-![conversions_and_roas](../images/conversions_roas_by_channel.png)
+![conversions_and_roas](../images/conversions_and_roas_browser.png)
