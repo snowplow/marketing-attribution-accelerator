@@ -85,8 +85,8 @@ If you have added one or more of these macros to your own project's macros folde
 
 ```yml
 dispatch:
-  - macro_namespace: fractribution_snowplow
-    search_order: ['your_project_name', 'fractribution_snowplow']
+  - macro_namespace: fractribution
+    search_order: ['your_project_name', 'fractribution']
 ```
 
 This instructs dbt to look for files in your macros folder first before looking in the fractribution package's macros folder.

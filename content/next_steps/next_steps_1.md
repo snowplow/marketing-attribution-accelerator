@@ -92,8 +92,8 @@ Note: if you didn't modify any macros in the modeling steps, you will need to ad
 
 ```yml
 dispatch:
-  - macro_namespace: fractribution_snowplow
-    search_order: ['your_project_name', 'fractribution_snowplow']
+  - macro_namespace: fractribution
+    search_order: ['your_project_name', 'fractribution']
 ```
 
 
