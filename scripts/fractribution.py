@@ -341,7 +341,7 @@ class Fractribution(object):
       for channel, attribution in channel_to_attribution.items():
         overall_channel_to_revenue[channel] = (
             overall_channel_to_revenue.get(channel, 0.0)
-            + attribution * revenue)
+            + attribution * float(revenue))
     return overall_channel_to_revenue
 
   # def upload_report_table(

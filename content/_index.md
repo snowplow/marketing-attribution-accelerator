@@ -28,8 +28,9 @@ Here you will learn to:
 
 #### What you will learn
 
-In approximately half a day (~5 hours) you can achieve the following:
+In approximately half a day (~5.5 hours) you can achieve the following:
 
+- **Upload -** Upload some sample data
 - **Model -** Configure and run the snowplow-web data model
 - **Visualise -** Visualise an example table output
 - **Track -** Set-up and deploy tracking needed for fractribution to your website or single page application
@@ -41,24 +42,26 @@ In approximately half a day (~5 hours) you can achieve the following:
 gantt
         dateFormat  HH-mm
         axisFormat %H:%M
-        section 1. Model
+        section 1. Upload
+        30min       :upload, 00-00, 30m
+        section 2. Model
         2h          :model, after upload, 2h
-        section 2. Visualise
+        section 3. Visualise
         10min          :visualise, after model, 10m
-        section 3. Track
+        section 4. Track
         1h          :track, after visualise, 1h
-        section 4. Enrich
+        section 5. Enrich
         1h          :enrich, after track, 1h
-        section 5. Next steps
+        section 6. Next steps
         1h          :next steps, after enrich, 1h
 
 {{</mermaid >}}
-
+You can use the provided sample data to follow steps 1-3. If you have your own website or single page application, you can also follow steps 4-6 to run fractribution analysis on your own data. 
 ***
 
 #### Prerequisites
 
-- It is assumed that you have either already run the [snowplow-web](https://hub.getdbt.com/snowplow/snowplow_web/latest/) dbt package, or have a snowplow_web_page_views and Snowplow events tables already in your data warehouse. If not, we recommend following the first two steps of the [Advanced Analytics for Web](https://docs.snowplow.io/accelerators/web) accelerator.
+- It is assumed that you are already familiar with the [snowplow-web](https://hub.getdbt.com/snowplow/snowplow_web/latest/) dbt package, or have a snowplow_web_page_views and Snowplow events table already in your data warehouse. If not, we recommend completing the [Advanced Analytics for Web](https://docs.snowplow.io/accelerators/web) accelerator.
 
 **Modeling**
 - dbt CLI installed / dbt Cloud account available

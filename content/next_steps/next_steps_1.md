@@ -99,7 +99,7 @@ dispatch:
 
 When these have been updated, run the fractribution package again, with the `--full-refresh` flag:
 ```
-dbt run --select fractribution --full-refresh
+dbt run --select package:fractribution --full-refresh
 ```
 
 The output table for channel spend should look similar to the following example (with your own spend values (and channels, if those were updated in the channel_classification macro)):
@@ -128,7 +128,7 @@ docker run --rm --env-file /path/to/env/file/configs.env -it snowplow/fractribut
 {{% tab name="Python" %}}
 
 ```
-python main_snowplow_snowflake.py --conversion_window_start_date '2022-07-03' --conversion_window_end_date '2022-08-01' --attribution_model shapley
+python main_snowplow_snowflake.py --conversion_window_start_date '2022-06-03' --conversion_window_end_date '2022-08-01' --attribution_model shapley
 ```
 
 {{% /tab %}}

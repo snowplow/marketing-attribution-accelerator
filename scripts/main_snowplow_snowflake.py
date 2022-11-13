@@ -102,15 +102,15 @@ def parse_args(argv):
     
 def get_channels(session):
     """Enumerates all possible channels."""
-    query = """SELECT DISTINCT channel FROM s_channel_counts"""
-    # todo: put s_channel_counts in a variable
+    query = """SELECT DISTINCT channel FROM channel_counts"""
+    # todo: put channel_counts in a variable
     return session.sql(query).collect()
 
 def get_path_summary_data(session):
     query = """
         SELECT transformedPath, conversions, nonConversions, revenue
-        FROM s_path_summary
-        """ # TODO: add s_path_summary as a variable instead
+        FROM path_summary
+        """ # TODO: add path_summary as a variable instead
 
     return session.sql(query).collect()
 
@@ -123,7 +123,7 @@ def create_attribution_report_table(session):
         FROM
             channel_attribution
             LEFT JOIN
-            s_channel_spend USING (channel)
+            channel_spend USING (channel)
     """
 
     return session.sql(query).collect()
