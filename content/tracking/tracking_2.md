@@ -32,22 +32,19 @@ snowplow('trackPageView')
 #### Transaction event
 In addition to pageviews, we need to track transactions in order to determine when a user has converted and how much they spent.
 
-- **Transaction Tracking** - Captures transaction information including `orderId` and `total`.
+- **Transaction Tracking** - Captures transaction information including `transaction_id` and `revenue`.
 
 ####  **Step 2:** Perform Transaction Tracking
-To perform transaction tracking, first you create the transaction object with `addTrans`, and then call the `trackTrans` method, e.g.
+To perform transaction tracking, you call the `trackTransaction` method, e.g.
 
 ```javascript
-snowplow('addTrans', {
-    orderId: '1234',  // required
-    total: 11.99,   // required
-    affiliation: 'Acme Clothing', 
+snowplow('trackTransaction', {
+    transaction_id: '1234',  // required
+    revenue: 11.99,   // required
+    payment_method: 'Credit Card', //required
+    currency: 'USD', //required
+    total_quantity: 1, //required
     tax: 1.29,
-    shipping: 5,
-    city: 'San Jose',
-    state: 'California',
-    country: 'USA',
-    currency: 'USD'
+    shipping: 5.00
 });
-snowplow('trackTrans');
 ```

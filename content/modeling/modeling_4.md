@@ -26,9 +26,9 @@ You can optionally choose a specific attribution model from the following:
     channels getting the leftover 20% distributed evenly.
 - linear: Assigns attribution evenly between all channels on the path.
 
-| ![Attribution models](../images/attribution_model.png?width=70pc) |
+| ![Attribution models](../images/attribution_models.png) |
 |:--:|
-| Image source [thinkwithgoogle](https://www.thinkwithgoogle.com/intl/en-ca/marketing-strategies/data-and-measurement/measurement-and-attribution-primer/) |
+| Attribution Models |
 
 ***
 Add your connection parameters to an environment file (e.g. configs.env). For example:
@@ -100,9 +100,9 @@ Now you can run the fractribution script. You can optionally choose a specific a
     channels getting the leftover 20% distributed evenly.
 - linear: Assigns attribution evenly between all channels on the path.
 
-| ![Attribution models](../images/attribution_model.png?width=70pc) |
+| ![Attribution models](../images/attribution_models.png) |
 |:--:|
-| Image source [thinkwithgoogle](https://www.thinkwithgoogle.com/intl/en-ca/marketing-strategies/data-and-measurement/measurement-and-attribution-primer/) |
+| Attribution Models |
 
 If you wish to use the default (shapley), no model flag is needed. But you do need to specify the start and end dates for the conversion window:
 
@@ -119,3 +119,7 @@ The output of the fractribution analysis will be built into the schema specified
 
 {{% /tab %}}
 {{</tabs >}}
+
+{{% notice info %}}
+If you would like to learn more about Fractional Attribution works, please see these [slides](https://github.com/google/fractribution/blob/master/Fractribution_Slides.pdf) and this [document](https://support.google.com/analytics/answer/3191594?hl=en#algorithm)
+{{% /notice %}}

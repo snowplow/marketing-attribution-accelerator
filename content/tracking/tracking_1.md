@@ -35,10 +35,9 @@ Call `newTracker` in the `<script>` tag, with the following arguments. This crea
 ```javascript
 window.snowplow('newTracker', 'sp', '{{Url for Collector}}', {
     plugins: [ EcommercePlugin() ],
-})
+}) #TODO update plugin name
 ```
 
-<!-- **should we point the collector to mini/micro collector for testing??** -->
 
 In addition to the basic tracker, add the below optional arguments to the tracker to make use of some of Snowplow's more advanced features.
 
@@ -53,5 +52,5 @@ window.snowplow('newTracker', 'sp', '{{Url for Collector}}', {
     appId: 'appId',
     platform: 'web',
     cookieSameSite: 'Lax',
-});
+});#TODO update plugin name
 ```
