@@ -13,7 +13,7 @@ Welcome to the **Fractribution** accelerator. This is an accelerator to demonstr
 Here you will learn to:
 
 * Model and Visualise Snowplow data
-  - using the [fractribution](https://hub.getdbt.com/snowplow/fractribution/latest/) dbt package and Python script
+  - using the [snowplow_fractribution](https://hub.getdbt.com/snowplow/snowplow_fractribution/latest/) dbt package and Python script
   - using our sample data for Snowflake (no need to have a working pipeline)
 * Set-up Snowplow Tracking and Enrichment for fractribution
 * Apply what you have learned on your own pipeline to gain insights
@@ -22,7 +22,7 @@ Here you will learn to:
 #### Who is this guide for?
 
 - Data practitioners who would like to get familiar with further options for modeling Snowplow data.
-- Data practitioners who want to learn how to use the fractribution dbt package, to gain insight into ROAS figures using fractional attribution as quickly as possible.
+- Data practitioners who want to learn how to use the snowplow_fractribution dbt package, to gain insight into ROAS figures using fractional attribution as quickly as possible.
 
 ***
 

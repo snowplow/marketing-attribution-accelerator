@@ -102,14 +102,14 @@ def parse_args(argv):
     
 def get_channels(session):
     """Enumerates all possible channels."""
-    query = """SELECT DISTINCT channel FROM channel_counts"""
+    query = """SELECT DISTINCT channel FROM snowplow_fractribution_channel_counts"""
     # todo: put channel_counts in a variable
     return session.sql(query).collect()
 
 def get_path_summary_data(session):
     query = """
         SELECT transformedPath, conversions, nonConversions, revenue
-        FROM path_summary
+        FROM snowplow_fractribution_path_summary
         """ # TODO: add path_summary as a variable instead
 
     return session.sql(query).collect()
@@ -123,7 +123,7 @@ def create_attribution_report_table(session):
         FROM
             channel_attribution
             LEFT JOIN
-            channel_spend USING (channel)
+            snowplow_fractribution_channel_spend USING (channel)
     """
 
     return session.sql(query).collect()
@@ -197,7 +197,7 @@ def run(input_params: Mapping[str, Any]) -> int:
   params = input_params # standard
 
   # assumes that the dataset already exists
-  params['channel_counts_table'] = 'channel_counts'
+  params['channel_counts_table'] = 'snowplow_fractribution_channel_counts'
 
   session = Session.builder.configs(connection_parameters).create()
 

@@ -4,7 +4,7 @@ weight = 4
 post = ""
 +++
 
-Data from the fractribution dbt package should now be in your warehouse. Next we need to create the report table. There are two ways to to this - by pulling a Docker container image or with Python locally. 
+Data from the snowplow_fractribution dbt package should now be in your warehouse. Next we need to create the report table. There are two ways to to this - by pulling a Docker container image or with Python locally. 
 ***
 
 {{< tabs groupId="modeling" >}}
@@ -14,7 +14,7 @@ To run the fractribution script using Docker, make sure that you have [Docker](h
 Once you have docker installed, you can pull the image from the Docker Hub:
 
 ```
-docker pull snowplow/fractribution
+docker pull snowplow/snowplow_fractribution
 ```
 
 ***
@@ -49,7 +49,7 @@ attribution_model=shapley
 Then run the Docker image and pass in the filepath of the .env file:
 
 ```
-docker run --rm --env-file /path/to/env/file/configs.env -it snowplow/fractribution 
+docker run --rm --env-file /path/to/env/file/configs.env -it snowplow/snowplow_fractribution 
 ```
 The output of the fractribution analysis will be built into the schema specified in your connection parameters. The table will be called report_table.
 

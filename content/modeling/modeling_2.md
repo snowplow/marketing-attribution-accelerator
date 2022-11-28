@@ -29,4 +29,4 @@ Run the snowplow_web package
 dbt run --selector snowplow_web --full-refresh --vars 'snowplow__allow_refresh: true'
 ```
 
-This should have created the table `<your_schema>_derived.snowplow_web_page_views`. This is the table that we will be using in the fractribution package. 
+This should have created the table `<your_schema>_derived.snowplow_web_page_views`. This is the table that we will be using in the snowplow_fractribution package. 
