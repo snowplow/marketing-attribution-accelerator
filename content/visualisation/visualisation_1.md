@@ -35,4 +35,4 @@ For comparison, below is an example of the output of running a traditional last-
 ***
 
 The above fractional attribution data can also be visualised, for example:
-![conversions_and_roas](../images/conversions_and_roas_browser.png)
+![conversions_and_roas](../images/conversions_roas_browser.png)
