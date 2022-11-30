@@ -107,13 +107,13 @@ Now you can run the fractribution script. You can optionally choose a specific a
 If you wish to use the default (shapley), no model flag is needed. But you do need to specify the start and end dates for the conversion window:
 
 ```
-python main_snowplow_snowflake.py --conversion_window_start_date '2017-06-03' --conversion_window_end_date '2017-08-01'
+python main_snowplow_snowflake.py --conversion_window_start_date '2022-06-03' --conversion_window_end_date '2022-08-01'
 ```
 
 Otherwise you may add a flag indicating the attribution model to use, e.g.:
 
 ```
-python main_snowplow_snowflake.py --conversion_window_start_date '2017-06-03' --conversion_window_end_date '2017-08-01' --attribution_model shapley
+python main_snowplow_snowflake.py --conversion_window_start_date '2022-06-03' --conversion_window_end_date '2022-08-01' --attribution_model shapley
 ```
 The output of the fractribution analysis will be built into the schema specified in your connection parameters. The table will be called report_table.
 

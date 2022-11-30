@@ -23,14 +23,15 @@ For the sake of simplicity we have selected the variables that you will most lik
 - `consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
 
 The default source schemas and tables used by the snowplow_fractribution package are:
-- *atomic.events* for the Snowplow event data 
-- *atomic_derived.snowplow_web_page_views* for the page_views data
+- *atomic_derived.snowplow_web_page_views* for the page_views data (page_views_source)
+- *atomic.events* for the Snowplow event data (conversions_source)
 
-If any of these differ in your warehouse, set the correct names as variables in your dbt_project.yml, e.g.:
-- `atomic_schema`: 'test_atomic'
-- `events_table`: 'sample_events_fractribution'
-- `page_views_schema`: 'test_atomic_derived'
-- `page_views_table`: 'snowplow_web_page_views'
+If either of these differ in your warehouse, set the correct names as variables in your own dbt_project.yml, e.g.:
+-  `page_views_source`: `custom_schema_derived.snowplow_web_page_views`
+-  `conversions_source`: `custom_schema_derived.snowplow_ecommerce_transaction_interactions`
+
+For example, if you do not wish the package to query your `atomic.events` table to get the conversion value data, the `conversions_source` variable can point to a different table, such as the derived table `snowplow_ecommerce_transaction_interactions` created by the ecommerce model. **(TODO: Add link)**
+Another option would be to create your own incremental data model for transaction/conversion events, and add a reference to that model as the conversions_source variable, e.g. `conversions_source: {{ ref('custom_conversions_model') }}`
 
 You only need to set the variables for those that differ from the default.
 
@@ -45,7 +46,7 @@ vars:
   path_lookback_days: 30
   path_transforms: [['Exposure', null]]
   consider_intrasession_channels: false
-  events_table: 'sample_events_fractribution'
+  conversions_source: 'atomic.sample_events_fractribution'
 ```
 
 **Path Transform Options**
@@ -63,7 +64,7 @@ There are five path transform options available:
 
 **Configure the conversion_clause macro**
 
-The conversion_macro specifies how to filter Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. 
+The conversion_macro specifies how to filter Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. If you are using the ecommerce model, you will still need to set this for the fractribution code to run (even though all events are conversions in the ecommerce model), just change it to `transaction_revenue > 0`.
 
 If you wish to change this filter, copy the `conversion_clause.sql` file from the macros folder in the snowplow_fractribution package (at `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/conversion_clause.sql`) and add it to the macros folder of your own dbt project. Update the filter and save the file.
 
