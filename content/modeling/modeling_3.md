@@ -81,16 +81,6 @@ The channel_classification macro is used to perform channel classifications. Thi
 
 If you wish to change the channel classification macro, copy the `channel_classification.sql` file from the macros folder in the snowplow_fractribution package (at `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/channel_classification.sql`) and add it to the macros folder of your own dbt project. Update the SQL and save the file.
  
- 
-If you have added one or more of these macros to your own project's macros folder, the next step is to add the following to your dbt_project.yml file (replacing `your_project_name` with the name of your project, found at the top of the dbt_project.yml file after `name:`):
-
-```yml
-dispatch:
-  - macro_namespace: snowplow_fractribution
-    search_order: ['your_project_name', 'snowplow_fractribution']
-```
-
-This instructs dbt to look for files in your macros folder first before looking in the snowplow_fractribution package's macros folder.
 ***
 
 #### **Step 3:** Run the model
