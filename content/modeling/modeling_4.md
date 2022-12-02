@@ -4,9 +4,12 @@ weight = 4
 post = ""
 +++
 
-Data from the snowplow_fractribution dbt package should now be in your warehouse. Next we need to create the report table. There are two ways to to this - by pulling a Docker container image or with Python locally. 
-***
+Data from the snowplow_fractribution dbt package should now be in your warehouse. Next we need to create the report table. There are two ways to to this - by pulling a Docker container image or with Python locally, using the scripts in the `scripts.zip` file below. 
 
+{{% attachments style="blue" %}}
+{{% /attachments %}}
+
+***
 {{< tabs groupId="modeling" >}}
 {{% tab name="Docker" %}}
 To run the fractribution script using Docker, make sure that you have [Docker](https://www.docker.com/products/docker-desktop/) installed.
@@ -55,6 +58,8 @@ The output of the fractribution analysis will be built into the schema specified
 
 {{% /tab %}}
 {{% tab name="Python" %}}
+
+
 
 To run the fractribution script locally in Python, we recommend using a virtual environment. If you have an Apple M1, please see section **M1 Instructions**.
 Snowpark requires Python 3.8. To use conda:
