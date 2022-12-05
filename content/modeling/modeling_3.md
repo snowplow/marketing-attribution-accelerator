@@ -58,7 +58,7 @@ There are five path transform options available:
 - Unique: all events in a path are treated as unique (no reduction of complexity). Best for smaller datasets (small lookback window) without a lot of retargeting.
 - First: keep only the first occurrence of any event: A -> B -> A becomes A -> B. Best for brand awareness marketing.
 - Frequency: keep a count of the events' frequency: A -> A -> B becomes A(2) -> B. Best when there is a lot of retargeting.
-- Recency: time bucket events depending on when they occurred before the conversion and collapse those in the same bucket (square braces indicate minutes before conversion event): A[15-30] -> B[1-5] -> A[1-5] -> B[1-5] becomes A[15-30] -> B[1-5] -> A[1-5]. Best for larger lookback windows.
+
 
 #### **Step 2:** Configure macros
 
