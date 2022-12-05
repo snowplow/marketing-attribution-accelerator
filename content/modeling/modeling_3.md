@@ -55,7 +55,7 @@ Paths to conversion are often similar, but not identical. As such, path transfor
 
 There are five path transform options available:
 - Exposure (default in this package): the same events in succession are reduced to one: A -> A -> B becomes A -> B. A compromise between first and unique.
-- Unique: all events in a path are treated as unique (no reduction of complexity). Best for smaller datasets (small lookback window) without a lot of retargeting.
+- UniquePath: all events in a path are treated as unique (no reduction of complexity). Best for smaller datasets (small lookback window) without a lot of retargeting.
 - First: keep only the first occurrence of any event: A -> B -> A becomes A -> B. Best for brand awareness marketing.
 - Frequency: keep a count of the events' frequency: A -> A -> B becomes A(2) -> B. Best when there is a lot of retargeting.
 
