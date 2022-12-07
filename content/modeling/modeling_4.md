@@ -4,10 +4,8 @@ weight = 4
 post = ""
 +++
 
-Data from the snowplow_fractribution dbt package should now be in your warehouse. Next we need to create the report table. There are two ways to to this - by pulling a Docker container image or with Python locally, using the scripts in the `scripts.zip` file below. 
+Data from the snowplow_fractribution dbt package should now be in your warehouse. Next we need to create the report table. There are two ways to to this - by pulling a Docker container image or with Python locally, using the scripts in the `utils` folder in the dbt package. 
 
-{{% attachments style="blue" %}}
-{{% /attachments %}}
 
 ***
 {{< tabs groupId="modeling" >}}
@@ -60,8 +58,7 @@ The output of the fractribution analysis will be built into the schema specified
 {{% tab name="Python" %}}
 
 
-
-To run the fractribution script locally in Python, we recommend using a virtual environment. If you have an Apple M1, please see section **M1 Instructions**.
+Python scripts and requirements.txt can be found at `[dbt_project_name]/dbt_packages/snowplow_fractribution/utils/`. To run the fractribution script locally in Python, we recommend using a virtual environment. If you have an Apple M1, please see section **M1 Instructions**.
 Snowpark requires Python 3.8. To use conda:
 
 ```
@@ -120,7 +117,10 @@ Otherwise you may add a flag indicating the attribution model to use, e.g.:
 ```
 python main_snowplow_snowflake.py --conversion_window_start_date '2022-06-03' --conversion_window_end_date '2022-08-01' --attribution_model shapley
 ```
-The output of the fractribution analysis will be built into the schema specified in your connection parameters. The table will be called report_table.
+The output of the fractribution analysis will be built into the schema specified in your connection parameters. There are three tables that will be created are: 
+- `snowplow_fractribution_report_table`: The main output table that shows conversions, revenue, spend and ROAS per channel.
+- `snowplow_fractribution_channel_attribution`: The conversion and revenue attribution per channel (used to create the report table).
+- `snowplow_fractribution_path_summary_with_channels`: An intermediate table that shows, for each unique path, a summary of conversions, non conversions and revenue, as well as which channels were assigned a contribution.
 
 {{% /tab %}}
 {{</tabs >}}

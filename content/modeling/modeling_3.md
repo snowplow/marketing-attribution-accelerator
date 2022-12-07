@@ -23,7 +23,7 @@ For the sake of simplicity we have selected the variables that you will most lik
 - `consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
 
 The default source schemas and tables used by the snowplow_fractribution package are:
-- *atomic_derived.snowplow_web_page_views* for the page_views data (page_views_source)
+- *derived.snowplow_web_page_views* for the page_views data (page_views_source)
 - *atomic.events* for the Snowplow event data (conversions_source)
 
 If either of these differ in your warehouse, set the correct names as variables in your own dbt_project.yml, e.g.:

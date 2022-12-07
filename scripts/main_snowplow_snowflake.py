@@ -23,6 +23,7 @@ from absl.flags import argparse_flags
 import fractribution
 
 from snowflake.snowpark import Session  # snowflake support
+from snowflake.snowpark.types import DecimalType, StructField, StructType, StringType, IntegerType 
 
 
 connection_parameters = {
@@ -111,7 +112,7 @@ def get_channels(session):
 
 def get_path_summary_data(session):
     query = """
-        SELECT transformedPath, conversions, nonConversions, revenue
+        SELECT transformedPath, CAST(conversions AS FLOAT) AS conversions, CAST(nonConversions AS float) AS nonConversions, CAST(revenue AS float) AS revenue
         FROM snowplow_fractribution_path_summary
         """
 
@@ -120,12 +121,12 @@ def get_path_summary_data(session):
 
 def create_attribution_report_table(session):
     query = f"""
-        CREATE OR REPLACE TABLE report_table AS
+        CREATE OR REPLACE TABLE snowplow_fractribution_report_table AS
         SELECT
             *,
             DIV0(revenue, spend) AS roas
         FROM
-            channel_attribution
+            snowplow_fractribution_channel_attribution
             LEFT JOIN
             snowplow_fractribution_channel_spend USING (channel)
     """
@@ -134,7 +135,7 @@ def create_attribution_report_table(session):
 
 
 def run_fractribution(params: Mapping[str, Any]) -> None:
-    """Runs fractribution on the extract_fractribution_input_data Snowflake tables.
+    """Runs fractribution on the Snowflake tables.
 
     Args:
       params: Mapping of all template parameter names to values.
@@ -152,10 +153,22 @@ def run_fractribution(params: Mapping[str, Any]) -> None:
     frac.normalize_channel_to_attribution_names()
 
     path_list = frac._path_summary_to_list()
+    types = [
+        StructField("revenue", DecimalType(10,2)),
+        StructField("conversions", DecimalType(10,3)),
+        StructField("nonConversions", DecimalType(10,3)),
+        StructField("transformedPath", StringType())
+    ]
 
-    paths = session.create_dataframe(path_list)
+    # exclude revenue, conversions, nonConversions, transformedPath
+    channel_to_attribution = frac._get_channel_to_attribution()
+    un = set(channel_to_attribution.keys()).difference(["revenue", "conversions", "nonConversions", "transformedPath"])
+    attribution_types = [StructField(k, DecimalType(10,3)) for k in list(un)]
+    schema = types + attribution_types
 
-    paths.write.mode("overwrite").save_as_table("path_summary")
+    paths = session.create_dataframe(path_list, schema=StructType(schema))
+
+    paths.write.mode("overwrite").save_as_table("snowplow_fractribution_path_summary_with_channels")
 
     conversion_window_start_date = params["conversion_window_start_date"]
     conversion_window_end_date = params["conversion_window_end_date"]
@@ -174,7 +187,7 @@ def run_fractribution(params: Mapping[str, Any]) -> None:
         rows.append(row)
 
     channel_attribution = session.create_dataframe(rows)
-    channel_attribution.write.mode("overwrite").save_as_table("channel_attribution")
+    channel_attribution.write.mode("overwrite").save_as_table("snowplow_fractribution_channel_attribution")
 
     report = create_attribution_report_table(session)
 

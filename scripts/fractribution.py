@@ -298,6 +298,7 @@ class Fractribution(object):
             else:
                 row.update(default_attribution)
             rows.append(row)
+
         return rows
 
     def _get_channel_to_attribution(self) -> Mapping[str, float]:
