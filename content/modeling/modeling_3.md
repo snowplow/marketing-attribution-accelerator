@@ -28,10 +28,9 @@ The default source schemas and tables used by the snowplow_fractribution package
 
 If either of these differ in your warehouse, set the correct names as variables in your own dbt_project.yml, e.g.:
 -  `page_views_source`: `custom_schema_derived.snowplow_web_page_views`
--  `conversions_source`: `custom_schema_derived.snowplow_ecommerce_transaction_interactions`
+-  `conversions_source`: `custom_schema_derived.conversions`
 
-For example, if you do not wish the package to query your `atomic.events` table to get the conversion value data, the `conversions_source` variable can point to a different table, such as the derived table `snowplow_ecommerce_transaction_interactions` created by the ecommerce model. **(TODO: Add link)**
-Another option would be to create your own incremental data model for transaction/conversion events, and add a reference to that model as the conversions_source variable, e.g. `conversions_source: {{ ref('custom_conversions_model') }}`
+For example, one option would be to create your own snowplow-web incremental data model for transaction/conversion events, and add a reference to that model as the conversions_source variable, e.g. `conversions_source: {{ ref('custom_conversions_model') }}`
 
 You only need to set the variables for those that differ from the default.
 
