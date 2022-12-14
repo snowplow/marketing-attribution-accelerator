@@ -88,16 +88,7 @@ LATERAL FLATTEN(c) channel
 LEFT JOIN ad_spend a on c.channel=a.channel
 ```
 
-Note: if you didn't modify any macros in the modeling steps, you will need to add the following to your `dbt_project.yml` file (replacing `your_project_name` with the name of your project, found at the top of the dbt_project.yml file after `name:`):
-
-```yml
-dispatch:
-  - macro_namespace: snowplow_fractribution
-    search_order: ['your_project_name', 'snowplow_fractribution']
-```
-
-
-When these have been updated, run the snowplow_fractribution package again, with the `--full-refresh` flag:
+When this has been updated, run the snowplow_fractribution package again, with the `--full-refresh` flag:
 ```
 dbt run --select package:snowplow_fractribution --full-refresh
 ```
