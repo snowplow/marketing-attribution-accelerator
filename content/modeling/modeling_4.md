@@ -15,7 +15,7 @@ To run the fractribution script using Docker, make sure that you have [Docker](h
 Once you have docker installed, you can pull the image from the Docker Hub:
 
 ```
-docker pull snowplow/snowplow_fractribution
+docker pull snowplow/fractribution
 ```
 
 ***
@@ -50,7 +50,7 @@ attribution_model=shapley
 Then run the Docker image and pass in the filepath of the .env file:
 
 ```
-docker run --rm --env-file /path/to/env/file/configs.env -it snowplow/snowplow_fractribution 
+docker run --rm --env-file /path/to/env/file/configs.env -it snowplow/fractribution 
 ```
 The output of the fractribution analysis will be built into the schema specified in your connection parameters. The table will be called report_table.
 
