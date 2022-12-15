@@ -13,7 +13,7 @@ packages:
   - package: snowplow/snowplow_web
     version: 0.9.3
   - package: snowplow/snowplow_fractribution
-    version: 0.0.1
+    version: 0.1.0
 ```
 
 ***
