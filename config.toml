@@ -1,6 +1,6 @@
-title = "{{ACCELERATOR TEMPLATE}}"
-baseURL = "https://docs.snowplow.io/accelerators/{{YOUR BASE URL}}/"
+title = "Fractribution analysis"
+baseURL = "https://docs.snowplow.io/accelerators/snowplow_fractribution/"
 
 [params]
-  description = "{{ACCELERATOR DESCRIPTION}}"
-  author = "{{AUTHOR NAMES}}"
+  description = "Tutorial for running fractional attribution on Snowplow data"
+  author = "Poplin, Mike Robins, Zoe Loffler"

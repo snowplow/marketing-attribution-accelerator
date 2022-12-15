@@ -3,8 +3,8 @@ publish = 'public'
 command = './scripts/build.sh build $BUILD_OUTPUT_PATH'
 [build.environment]
 HUGO_VERSION = '0.104.1'
-HUGO_BASEURL = 'https://docs.snowplow.io/accelerators/marketing-attribution/'
-BUILD_OUTPUT_PATH = '/accelerators/marketing-attribution/'
+HUGO_BASEURL = 'https://docs.snowplow.io/accelerators/snowplow_fractribution/'
+BUILD_OUTPUT_PATH = '/accelerators/snowplow_fractribution/'
 
 [context.production]
 [context.production.environment]
@@ -18,6 +18,6 @@ command = './scripts/build.sh build $BUILD_OUTPUT_PATH $DEPLOY_PRIME_URL'
 
 [[redirects]]
 from = "/*"
-to = "/accelerators/marketing-attribution/:splat"
+to = "/accelerators/snowplow_fractribution/:splat"
 force = true
 status = 301

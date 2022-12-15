@@ -1,6 +1,5 @@
-# Marketing Attribution Accelerator
-
-This accelerator guides the user through setting up Snowplow for Marketing Attribution.
+# Fractional Attribution Accelerator
+This accelerator guides the user through how to set-up and run fractional attribution analysis on Snowplow data, coined 'Fractribution'.
 
 ## Installation
 
