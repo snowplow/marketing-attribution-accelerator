@@ -2,7 +2,7 @@
 title = "Setup your tracking"
 weight = 1
 +++
- 
+
 Depending on your store's front-end infrastructure and Snowplow set-up, you can use either our JavaScript tracker for a `<script>` tag option or our Browser tracker for a more modern web development set-up.
 
 In both options, the API is similar with only minor differences in the set-up and method calls.
@@ -79,7 +79,7 @@ export const tracker = newTracker("sp", "{{Url for Collector}}", {
 
 #### **Step 3:** Configure the tracker to use the `EcommercePlugin`
 
-To allow the tracker to use ecommerce methods from the `EcommercePlugin`, you need to include during the initialization of the tracker. By adding it on the `plugins` array, you gain access to the full functionality:
+To allow the tracker to use e-commerce methods from the `EcommercePlugin`, you need to include during the initialization of the tracker. By adding it on the `plugins` array, you gain access to the full functionality:
 
 ```javascript
 import { newTracker } from "@snowplow/browser-tracker";
@@ -93,7 +93,7 @@ export const tracker = newTracker("sp", "{{Url for Collector}}", {
 });
 ```
 
-Now the tracker has everything required to start collecting ecommerce action data. On the next step we are going to see how to use the available APIs.
+Now the tracker has everything required to start collecting e-commerce action data. On the next step we are going to see how to use the available APIs.
 
 {{% /tab %}}
 {{< /tabs >}}

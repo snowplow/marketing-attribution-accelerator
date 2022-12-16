@@ -41,7 +41,7 @@ To perform transaction tracking, first you add an item for the transaction, crea
 snowplow('addItem', {
     orderId: '1234',
     sku: 'P123',
-    name: 'T-Shirt',      
+    name: 'T-Shirt',
     category: 'Green Medium',
     price: 11.99,
     quantity: 1,
@@ -51,7 +51,7 @@ snowplow('addItem', {
 snowplow('addTrans', {
     orderId: '1234',  // required
     total: 11.99,   // required
-    affiliation: 'Acme Clothing', 
+    affiliation: 'Acme Clothing',
     tax: 1.29,
     shipping: 5,
     city: 'San Jose',
@@ -63,7 +63,7 @@ snowplow('addTrans', {
 snowplow('trackTrans');
 ```
 
-For more information on the ecommerce tracking, you can take a look at the [documentation](https://docs.snowplow.io/docs/collecting-data/collecting-from-own-applications/javascript-trackers/javascript-tracker/javascript-tracker-v3/tracking-events/#ecommerce-tracking) for this plugin and its methods.
+For more information on the e-commerce tracking, you can take a look at the [documentation](https://docs.snowplow.io/docs/collecting-data/collecting-from-own-applications/javascript-trackers/javascript-tracker/javascript-tracker-v3/tracking-events/#ecommerce-tracking) for this plugin and its methods.
 
 {{% /tab %}}
 {{% tab name="Browser API" %}}
@@ -94,7 +94,7 @@ import { addItem, addTrans, trackTrans } from '@snowplow/browser-plugin-ecommerc
 addItem({
     orderId: '1234',
     sku: 'P123',
-    name: 'T-Shirt',      
+    name: 'T-Shirt',
     category: 'Green Medium',
     price: 11.99,
     quantity: 1,
@@ -102,7 +102,7 @@ addItem({
 });
 
 addTrans({
-    orderId: '1234', 
+    orderId: '1234',
     total: 11.99,
     affiliation: 'Acme Clothing',
     tax: 1.29,
@@ -116,7 +116,7 @@ addTrans({
 trackTrans();
 ```
 
-For more information on the ecommerce tracking, you can take a look at the [documentation](https://docs.snowplow.io/docs/collecting-data/collecting-from-own-applications/javascript-trackers/browser-tracker/browser-tracker-v3-reference/tracking-events/#ecommerce-tracking) for this plugin and its methods.
+For more information on the e-commerce tracking, you can take a look at the [documentation](https://docs.snowplow.io/docs/collecting-data/collecting-from-own-applications/javascript-trackers/browser-tracker/browser-tracker-v3-reference/tracking-events/#ecommerce-tracking) for this plugin and its methods.
 
 {{% /tab %}}
 {{< /tabs >}}
