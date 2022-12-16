@@ -12,7 +12,7 @@ weight = 1
 
 #### Introduction
 
-This accelerator will guide you to run fractional attribution analysis on Snowplow data. Fractional attribution allows you to attribute the value of a conversion to one or more channels depending on the conversion pathway. As a result, it becomes possible to determine the revenue per channel, as well as Return on Advertising Spend (ROAS*) once you have cost data for each marketing channel. Once finished, you will be able to enhance your strategic marketing decisions, such as channel investment and focus, in a more data informed way.
+This accelerator will show you how to perform fractional attribution analysis on your Snowplow data, enabling you to attribute a portion of the value of a conversion to specific channels based on the conversion pathway. With this information, you can calculate the revenue per channel and Return on Advertising Spend (ROAS*) for each marketing channel, giving you a data-driven approach to making strategic marketing decisions such as channel investment and focus.
 
 Here you will learn to:
 
