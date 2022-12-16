@@ -44,7 +44,7 @@ window.snowplow('newTracker', 'sp', '{{Url for Collector}}', {
 });
 ```
 
-Since we are using the fully featured `sp.js` file, the required Ecommerce tracking capabilities are included by default.
+Since we are using the fully featured `sp.js` file, the required E-commerce tracking capabilities are included by default.
 
 {{% /tab %}}
 {{% tab name="Package Manager" %}}
