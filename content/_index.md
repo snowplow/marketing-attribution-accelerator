@@ -8,7 +8,7 @@ weight = 1
 
 !['logo-banner'](images/logo_banner_2.png)
 
-### Fractribution Accelerator
+### Fractional Attribution Accelerator
 
 #### Introduction
 
