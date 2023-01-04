@@ -1,5 +1,5 @@
 title = "Fractribution analysis"
-baseURL = "https://docs.snowplow.io/accelerators/snowplow_fractribution/"
+baseURL = "https://docs.snowplow.io/accelerators/snowplow-fractribution/"
 
 [params]
   description = "Tutorial for running fractional attribution on Snowplow data"
