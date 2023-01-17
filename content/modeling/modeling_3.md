@@ -21,6 +21,7 @@ For the sake of simplicity we have selected the variables that you will most lik
 - `path_lookback_days`: Restrict the model to marketing channels within this many days of the conversion (values of 30, 14 or 7 are recommended)
 - `path_transforms`: An array of path transforms and their arguments (see below section **Path Transform Options**)
 - `consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
+- `channels_to_exclude`: List of channels to exclude from analysis (empty to keep all channels). For example, users may want to exclude the 'Direct' channel from the analysis.
 
 The default source schemas and tables used by the snowplow_fractribution package are:
 - *derived.snowplow_web_page_views* for the page_views data (page_views_source)
@@ -45,6 +46,7 @@ vars:
   path_lookback_days: 30
   path_transforms: [['Exposure', null]]
   consider_intrasession_channels: false
+  channels_to_exclude: []
   conversions_source: 'atomic.sample_events_fractribution'
 ```
 
@@ -77,6 +79,8 @@ If you wish to change this value, copy the `conversion_value.sql` file from the 
 **Configure the default channel_classification macro**
 
 The channel_classification macro is used to perform channel classifications. This can be altered to generate your expected channels if they differ from the channels generated in the default macro. It is highly recommended that you examine and configure this macro when using your own data, as the default values will not consider any custom marketing parameters.
+
+Ensure that any channels listed in the `channels_to_exclude` variable are specified in this channel classfication macro, as events are filtered based on the channels created here. (E.g. if you wish to exclude events from the `Direct` channel, you first need to have the events classified as `Direct` in order to subsequently filter them out).
 
 If you wish to change the channel classification macro, copy the `channel_classification.sql` file from the macros folder in the snowplow_fractribution package (at `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/channel_classification.sql`) and add it to the macros folder of your own dbt project. Update the SQL and save the file.
 
