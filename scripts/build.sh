@@ -19,6 +19,7 @@ mkdir build/themes
 cp -R accelerator-web-ui-template/themes/hugo-theme-learn build/themes/
 cp -R accelerator-web-ui-template/layouts build/
 cp -R accelerator-web-ui-template/static build/
+cp -R accelerator-web-ui-template/data build/
 cd build
 
 echo "Creating Hugo site..."
