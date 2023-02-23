@@ -15,7 +15,7 @@ Please note that this accelerator currently only supports v0.1.0 of the snowplow
 ```yml
 packages:
   - package: snowplow/snowplow_web
-    version: 0.9.3
+    version: {{ <component name="snowplow_web_latest"}}
   - package: snowplow/snowplow_fractribution
     version: 0.1.0
 ```
