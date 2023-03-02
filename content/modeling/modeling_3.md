@@ -14,10 +14,6 @@ The snowplow_fractribution dbt package comes with a list of variables specified 
 
 For the sake of simplicity we have selected the variables that you will most likely need to overwrite, the rest can be changed at a later stage if and when it is needed.
 
-<details>**Users on v0.1.0 of snowplow-fractribution**
-The variable names have changed, they have been prefaced with `snowplow__`, please note that the accelerator will refer to them with their new names. Further changes are that the path_transforms variable is changed to be a dictionary from v.0.2.0 as opposed to an array and the path transform names have also changed in places. E.g.: `Exposure` became `exposure_path`
-</details>
-
 - `snowplow__conversion_window_start_date`: The start date in UTC for the window of conversions to include
 - `snowplow__conversion_window_end_date`: The end date in UTC for the window of conversions to include
 - `snowplow__conversion_hosts`: url_hosts to consider
