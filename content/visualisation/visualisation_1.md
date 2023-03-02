@@ -4,9 +4,9 @@ post = ""
 weight = 1
 +++
 
-Below is an example of a fractional attribution report table, which shows the calculated ROAS by attribution channel. 
+Below is an example of an attribution report table, which shows the calculated ROAS by attribution channel.
 
-| conversionWindowStartDate | conversionWindowEndDate | channel           | conversions | revenue | spend  | roas |
+| conversion_window_start_date | conversion_window_end_date | channel           | conversions | revenue | spend  | roas |
 | ------------------------- | ----------------------- | ----------------- | ----------- | ------- | ------ | ---- |
 | 2022-06-03                | 2022-08-01              | Direct            | 699.8       | 137050.5| 10000.0| 13.7 |
 | 2022-06-03                | 2022-08-01              | Organic_Search    | 269.5       | 23292.3 | 10000.0| 2.33 |
@@ -20,9 +20,9 @@ This table shows the ROAS figures for each channel during the conversion window 
 
 ***
 
-If we had instead specified to remove the `Direct` channel using the `channels_to_exclude` variable, the table would look as follows:
+If we had instead specified to remove the `Direct` channel using the `snowplow__channels_to_exclude` variable, the table would look as follows:
 
-| conversionWindowStartDate | conversionWindowEndDate | channel           | conversions | revenue | spend  | roas |
+| conversion_window_start_date | conversion_window_end_date | channel           | conversions | revenue | spend  | roas |
 | ------------------------- | ----------------------- | ----------------- | ----------- | ------- | ------ | ---- |
 | 2022-06-03                | 2022-08-01              | Organic_Search    | 305.2       | 26517.5 | 10000.0| 2.65 |
 | 2022-06-03                | 2022-08-01              | Paid_Search_Other | 55.4        | 6250.6  | 10000.0| 0.63 |
@@ -35,7 +35,7 @@ If we had instead specified to remove the `Direct` channel using the `channels_t
 
 For comparison, below is an example of the output of running a traditional last-touch attribution model on the same sample data - [example instructions here](https://docs.snowplow.io/docs/tutorials/tutorial-first-and-last-touch-attribution/). The arrows beside the values indicate the direction of the difference in attribution calculated.
 
-| conversionWindowStartDate | conversionWindowEndDate | channel           | conversions | revenue    | spend  | roas    |
+| conversion_window_start_date | conversion_window_end_date | channel           | conversions | revenue    | spend  | roas    |
 | ------------------------- | ----------------------- | ----------------- | ----------- | ---------- | ------ | ------- |
 | 2022-06-03                | 2022-08-01              | Direct            | (↓)  687     | (↓)  121247.1| 10000.0| (↓)  12.1 |
 | 2022-06-03                | 2022-08-01              | Organic_Search    | (↑)  289     | (↑)  26409.3 | 10000.0| (↑)  2.64 |
@@ -46,5 +46,5 @@ For comparison, below is an example of the output of running a traditional last-
 | 2022-06-03                | 2022-08-01              | Video             | (↓)  1       | (↓)  8.49    | 10000.0| (↓)  0.001|
 
 ***
-The above fractional attribution data can also be visualised, for example:
+The above attribution data can also be visualised, for example:
 ![conversions_and_roas](../images/conversions_roas_browser.png)

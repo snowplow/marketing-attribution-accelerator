@@ -1,10 +1,10 @@
 +++
-title= "Set-up and run fractribution package"
+title= "Set-up and run snowplow-fractribution package"
 weight = 3
 post = ""
 +++
 
-The snowplow_web_page_views (created by the snowplow_web package) and sample_events_fractribution tables will be used to demonstrate how to set-up and run the snowplow_fractribution dbt package to create the tables needed for fractional attribution.
+The snowplow_web_page_views (created by the snowplow_web package) and sample_events_fractribution tables will be used to demonstrate how to set-up and run the snowplow_fractribution dbt package to create the tables needed for attribution modeling.
 
 ***
 
@@ -14,24 +14,28 @@ The snowplow_fractribution dbt package comes with a list of variables specified 
 
 For the sake of simplicity we have selected the variables that you will most likely need to overwrite, the rest can be changed at a later stage if and when it is needed.
 
-- `conversion_window_start_date`: The start date in UTC for the window of conversions to include
-- `conversion_window_end_date`: The end date in UTC for the window of conversions to include
-- `conversion_hosts`: url_hosts to consider
-- `path_lookback_steps`: The limit for the number of marketing channels to look at before the conversion (default is 0 = unlimited)
-- `path_lookback_days`: Restrict the model to marketing channels within this many days of the conversion (values of 30, 14 or 7 are recommended)
-- `path_transforms`: An array of path transforms and their arguments (see below section **Path Transform Options**)
-- `consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
-- `channels_to_exclude`: List of channels to exclude from analysis (empty to keep all channels). For example, users may want to exclude the 'Direct' channel from the analysis.
+<details>**Users on v0.1.0 of snowplow-fractribution**
+The variable names have changed, they have been prefaced with `snowplow__`, please note that the accelerator will refer to them with their new names. Further changes are that the path_transforms variable is changed to be a dictionary from v.0.2.0 as opposed to an array and the path transform names have also changed in places. E.g.: `Exposure` became `exposure_path`
+</details>
+
+- `snowplow__conversion_window_start_date`: The start date in UTC for the window of conversions to include
+- `snowplow__conversion_window_end_date`: The end date in UTC for the window of conversions to include
+- `snowplow__conversion_hosts`: url_hosts to consider
+- `snowplow__path_lookback_steps`: The limit for the number of marketing channels to look at before the conversion (default is 0 = unlimited)
+- `snowplow__path_lookback_days`: Restrict the model to marketing channels within this many days of the conversion (values of 30, 14 or 7 are recommended)
+- `snowplow__path_transforms`: A dictionary of path transforms and their arguments (see below section **Path Transform Options**)
+- `snowplow__consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
+- `snowplow__channels_to_exclude`: List of channels to exclude from analysis (empty to keep all channels). For example, users may want to exclude the 'Direct' channel from the analysis.
 
 The default source schemas and tables used by the snowplow_fractribution package are:
 - *derived.snowplow_web_page_views* for the page_views data (page_views_source)
 - *atomic.events* for the Snowplow event data (conversions_source)
 
 If either of these differ in your warehouse, set the correct names as variables in your own dbt_project.yml, e.g.:
--  `page_views_source`: `custom_schema_derived.snowplow_web_page_views`
--  `conversions_source`: `custom_schema_derived.conversions`
+-  `snowplow__page_views_source`: `custom_schema_derived.snowplow_web_page_views`
+-  `snowplow__conversions_source`: `custom_schema_derived.conversions`
 
-For example, one option would be to create your own snowplow-web incremental data model for transaction/conversion events, and add a reference to that model as the conversions_source variable, e.g. `conversions_source: {{ ref('custom_conversions_model') }}`
+For example, one option would be to create your own snowplow-web incremental data model for transaction/conversion events, and add a reference to that model as the conversions_source variable, e.g. `snowplow__conversions_source: {{ ref('custom_conversions_model') }}`
 
 You only need to set the variables for those that differ from the default.
 
@@ -39,15 +43,15 @@ Below is an example snippet of these variables in your `dbt_project.yml`:
 
 ```yml
 vars:
-  conversion_window_start_date: '2022-06-03'
-  conversion_window_end_date: '2022-08-01'
-  conversion_hosts: ['poplindata.com']
-  path_lookback_steps: 0
-  path_lookback_days: 30
-  path_transforms: [['Exposure', null]]
-  consider_intrasession_channels: false
-  channels_to_exclude: []
-  conversions_source: 'atomic.sample_events_fractribution'
+  snowplow__conversion_window_start_date: '2022-06-03'
+  snowplow__conversion_window_end_date: '2022-08-01'
+  snowplow__conversion_hosts: ['a.com']
+  snowplow__path_lookback_steps: 0
+  snowplow__path_lookback_days: 30
+  snowplow__path_transforms: {'exposure_path', null}
+  snowplow__consider_intrasession_channels: false
+  snowplow__channels_to_exclude: []
+  snowplow__conversions_source: 'atomic.sample_events_fractribution'
 ```
 
 **Path Transform Options**
@@ -65,7 +69,7 @@ There are five path transform options available:
 
 **Configure the conversion_clause macro**
 
-The conversion_macro specifies how to filter Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. If you are using the e-commerce model, you will still need to set this for the fractribution code to run (even though all events are conversions in the e-commerce model), just change it to `transaction_revenue > 0`.
+The conversion_macro specifies how to filter Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. If you are using the e-commerce model, you will still need to set this to enable the models to run (even though all events are conversions in the e-commerce model), just change it to `transaction_revenue > 0`.
 
 If you wish to change this filter, copy the `conversion_clause.sql` file from the macros folder in the snowplow_fractribution package (at `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/conversion_clause.sql`) and add it to the macros folder of your own dbt project. Update the filter and save the file.
 
@@ -80,7 +84,7 @@ If you wish to change this value, copy the `conversion_value.sql` file from the 
 
 The channel_classification macro is used to perform channel classifications. This can be altered to generate your expected channels if they differ from the channels generated in the default macro. It is highly recommended that you examine and configure this macro when using your own data, as the default values will not consider any custom marketing parameters.
 
-Ensure that any channels listed in the `channels_to_exclude` variable are specified in this channel classfication macro, as events are filtered based on the channels created here. (E.g. if you wish to exclude events from the `Direct` channel, you first need to have the events classified as `Direct` in order to subsequently filter them out).
+Ensure that any channels listed in the `snowplow__channels_to_exclude` variable are specified in this channel classfication macro, as events are filtered based on the channels created here. (E.g. if you wish to exclude events from the `Direct` channel, you first need to have the events classified as `Direct` in order to subsequently filter them out).
 
 If you wish to change the channel classification macro, copy the `channel_classification.sql` file from the macros folder in the snowplow_fractribution package (at `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/channel_classification.sql`) and add it to the macros folder of your own dbt project. Update the SQL and save the file.
 
@@ -105,7 +109,7 @@ Head to the SQL editor of your choice (e.g.: Snowflake Web UI) to check the mode
 
 #### **Step 5:** Explore the data created by your dbt models
 
-Take some time to familiarise yourself with the derived tables. These tables are used in the next step to fractionally attribute revenue to channels. Tables output by the snowplow_fractribution dbt package are:
+Take some time to familiarise yourself with the derived tables. These tables are used in the next step to attribute revenue to channels. Tables output by the snowplow_fractribution dbt package are:
 
 - `snowplow_fractribution_channel_counts`: Number of events grouped by channel, campaign, source and medium.
 - `snowplow_fractribution_channel_spend`: Spend on each channel, used in ROAS calculations.

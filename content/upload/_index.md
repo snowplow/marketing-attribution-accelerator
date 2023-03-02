@@ -19,4 +19,4 @@ flowchart LR
     style id6 fill:#f5f5f5,stroke:#333,stroke-width:1px
 {{</mermaid >}}
 
-A sample events dataset for your Snowflake warehouse has been provided. This will allow you to be able to follow the fractribution accelerator, without the need to have a working pipeline. This chapter will guide you through this process.
+A sample events dataset for your warehouse has been provided. This will allow you to be able to follow the Attribution Modeling accelerator, without the need to have a working pipeline. This chapter will guide you through this process.

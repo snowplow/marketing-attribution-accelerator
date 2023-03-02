@@ -9,7 +9,7 @@ Snowplow offers a large number of enrichments that can be used to enhance your e
 For this project, we need to enable the campaign attribution enrichment.
 
 #### Campaign Attribution
-The campaign attribution enrichment takes the UTM parameters (or other marketing parameters from other systems) from a given URL and splits them out into separate columns that can subsequently be used for analysis. The fractribution package needs these columns for its analysis. 
+The campaign attribution enrichment takes the UTM parameters (or other marketing parameters from other systems) from a given URL and splits them out into separate columns that can subsequently be used for analysis. The snowplow-fractribution package needs these columns for its analysis.
 
 
 {{< tabs groupId="enrich" >}}

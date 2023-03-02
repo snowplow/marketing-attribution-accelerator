@@ -4,7 +4,7 @@ weight = 2
 post = ""
 +++
 
-We will use the *snowplow_web_page_views* table created by the [snowplow-web](https://hub.getdbt.com/snowplow/snowplow_web/latest/) dbt package, as well as the Snowplow events table, to create a fractional attribution report table. This table provides the marginal contribution of each channel to a user-level conversion event as well as the monetary value attributed to that channel from the conversion event. It will also contain spend information and calculated ROAS per channel. 
+We will use the *snowplow_web_page_views* table created by the [snowplow-web](https://hub.getdbt.com/snowplow/snowplow_web/latest/) dbt package, as well as the Snowplow events table, to create an attribution report table. This table provides the marginal contribution of each channel to a user-level conversion event as well as the monetary value attributed to that channel from the conversion event. It will also contain spend information and calculated ROAS per channel.
 
 As such, this tutorial assumes that you are already familiar with the `snowplow-web` dbt package. If not, detailed instructions can be found in the [Advanced Analytics for Web](https://docs.snowplow.io/accelerators/web) accelerator.
 
@@ -29,4 +29,4 @@ Run the snowplow_web package
 dbt run --selector snowplow_web --full-refresh --vars 'snowplow__allow_refresh: true'
 ```
 
-This should have created the table `<your_schema>_derived.snowplow_web_page_views`. This is the table that we will be using in the snowplow_fractribution package. 
+This should have created the table `<your_schema>_derived.snowplow_web_page_views`. This is the table that we will be using in the snowplow_fractribution package.

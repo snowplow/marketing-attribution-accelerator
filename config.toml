@@ -2,6 +2,6 @@ title = "Fractribution analysis"
 baseURL = "https://docs.snowplow.io/accelerators/snowplow-fractribution/"
 
 [params]
-  description = "Tutorial for running fractional attribution on Snowplow data"
+  description = "Tutorial to perform Attribution Modeling on Snowplow data"
   author = "Poplin, Mike Robins, Zoe Loffler"
   intercom=false

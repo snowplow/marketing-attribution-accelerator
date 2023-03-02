@@ -8,25 +8,26 @@ weight = 1
 
 !['logo-banner'](images/logo_banner_2.png)
 
-### Fractional Attribution Accelerator
+### Attribution Modeling Accelerator
 
 #### Introduction
 
-This accelerator will show you how to perform fractional attribution analysis on your Snowplow data, enabling you to attribute a portion of the value of a conversion to specific channels based on the conversion pathway. With this information, you can calculate the revenue per channel and Return on Advertising Spend (ROAS*) for each marketing channel, giving you a data-driven approach to making strategic marketing decisions such as channel investment and focus.
+This accelerator will show you how to perform attribution modeling on your Snowplow data, enabling you to attribute a portion of the value of a conversion to specific channels based on the conversion pathway. With this information, you can calculate the revenue per channel and Return on Advertising Spend (ROAS*) for each marketing channel, giving you a data-driven approach to making strategic marketing decisions such as channel investment and focus.
 
 Here you will learn to:
 
 * Model and Visualise Snowplow data
   - using the [snowplow_fractribution](https://hub.getdbt.com/snowplow/snowplow_fractribution/latest/) dbt package and Python script
-  - using our sample data for Snowflake (no need to have a working pipeline)
-* Set-up Snowplow Tracking and Enrichment for fractribution
+  - using our sample data (no need to have a working pipeline)
+* Set-up Snowplow Tracking and Enrichment to prepare your data sources
 * Apply what you have learned on your own pipeline to gain insights
 ***
 
 #### Who is this guide for?
 
 - Data practitioners who would like to get familiar with further options for modeling Snowplow data.
-- Data practitioners who want to learn how to use the snowplow_fractribution dbt package, to gain insight into ROAS figures using fractional attribution as quickly as possible.
+- Data practitioners who want to learn how to use the snowplow_fractribution dbt package, to gain insight into ROAS figures using attribution modeling as quickly as possible.
+- This accelerator currently supports Snowflake, BigQuery and Databricks
 
 ***
 
@@ -35,9 +36,9 @@ Here you will learn to:
 In approximately half a day (~5.5 hours) you can achieve the following:
 
 - **Upload -** Upload some sample data
-- **Model -** Configure and run the snowplow-web data model
+- **Model -** Configure and run the snowplow-fractribution data model
 - **Visualise -** Visualise an example table output
-- **Track -** Set-up and deploy tracking needed for fractribution to your website or single page application
+- **Track -** Set-up and deploy tracking needed for your website or single page application for being able to perform attribution modeling
 - **Enrich -** Add an enrichment to your data
 - **Next steps -** Gain value from your own pipeline data
 
@@ -71,15 +72,11 @@ You can use the provided sample data to follow steps 1-3. If you have your own w
 - dbt CLI installed / dbt Cloud account available
   - New dbt project created and configured
 - Python 3 Installed
-- Snowflake account and a user with access to create schemas and tables
+- Snowflake, Databricsks or BigQuery account and a user with access to create schemas and tables
 
 **Tracking and Enrichment**
 - Snowplow pipeline
 - Web app to implement tracking
-
-{{% notice info %}}
-Please note that Snowflake will be used for illustration. The snowplow-fractribution dbt package also supports **BigQuery and Databricks. Further adapter support for this accelerator will be added soon.
-{{% /notice %}}
 
 ***
 <sup>*</sup>ROAS: The amount of revenue that is earned for every dollar spent on advertising

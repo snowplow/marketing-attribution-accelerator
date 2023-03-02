@@ -9,7 +9,7 @@ At this stage you should:
 - Have tracking and enrichment set-up
 - Have this data in the `ATOMIC.EVENTS` table
 - Have enabled the campaign attribution enrichment
-- Have a working dbt project with the web and fractribution model configurations for the sample data
+- Have a working dbt project with the snowplow-web and snowplow-fractribution model configurations for the sample data
 
 #### **Step 1:** Complete refresh of your Snowplow web package (Optional)
 
@@ -62,9 +62,9 @@ dbt test --selector snowplow_web_lean_tests
 ```
 ***
 
-#### **Step 5:** Fractribution
+#### **Step 5:** Attribution Modeling
 
-Now you can run fractribution analysis on your own data that has been modeled by the snowplow_web package. If you need to, you can update the conversion start and end dates, and any other variables that may have changed (see [Modeling: Set-up and run dbt package](/accelerators/fractribution/modeling/modeling_1/) and [Modeling: Create Fractribution report table](/accelerators/fractribution/modeling/modeling_2/) for a refresher on these variables). 
+Now you can run the attribution modeling script on your own data that has been modeled by the snowplow_web package. If you need to, you can update the conversion start and end dates, and any other variables that may have changed (see [Modeling: Set-up and run dbt package](/accelerators/fractribution/modeling/modeling_1/) and [Modeling: Create Attribution report table](/accelerators/fractribution/modeling/modeling_2/) for a refresher on these variables).
 
 For the example, channel spend has been set at 10000 per channel. To modify this to use your own data, you will need to copy the channel_spend.sql macro from `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/channel_spend.sql` and add it to your own dbt project's macros folder. Update the sql in this macro to join the channel names to your ad spend per channel for the given window, e.g. (a simplified example):
 
@@ -73,8 +73,8 @@ WITH channels AS (
     SELECT ARRAY_AGG(DISTINCT channel) AS c FROM {{ ref('snowplow_fractribution_channel_counts') }}
 ),
 ad_spend AS (
-    SELECT 
-        channel, 
+    SELECT
+        channel,
         SUM(spend) AS spend
     FROM ad_spend_table
     GROUP BY channel
@@ -112,18 +112,18 @@ Then run the script (or Docker container) again:
 {{% tab name="Docker" %}}
 
 ```
-docker run --rm --env-file /path/to/env/file/configs.env -it snowplow/snowplow_fractribution 
+docker run --rm --env-file /path/to/env/file/configs.env -it snowplow/snowplow_fractribution:latest
 ```
 
 {{% /tab %}}
 {{% tab name="Python" %}}
 
 ```
-python main_snowplow_snowflake.py --conversion_window_start_date '2022-06-03' --conversion_window_end_date '2022-08-01' --attribution_model shapley
+python main_snowplow_{your_warehouse}.py --conversion_window_start_date '2022-06-03' --conversion_window_end_date '2022-08-01' --attribution_model shapley
 ```
 
 {{% /tab %}}
 {{</tabs >}}
-The output of the snowplow_fractribution dbt package and script will replace any tables in your data warehouse that were previously created by these during this tutorial. 
+The output of the snowplow_fractribution dbt package and script will replace any tables in your data warehouse that were previously created by these during this tutorial.
 
-*Congratulations! You've finished the Fractribution accelerator, and hopefully have a better understanding of how you can use Fractional Attribution on your Snowplow data.*
+*Congratulations! You've finished the Attribution Modeling accelerator, and hopefully have a better understanding of how you can perform attribution analysis on your Snowplow data.*
