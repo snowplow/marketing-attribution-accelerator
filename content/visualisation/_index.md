@@ -21,4 +21,4 @@ flowchart LR
     style id6 fill:#f5f5f5,stroke:#333,stroke-width:1px
 {{</mermaid >}}
 
-This section provides an example of the fractibution report table and its graphical representation.
+This section provides an example of the fractibution report table and its graphical representation to give you a better understanding of the outcome of the analysis.

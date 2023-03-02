@@ -4,6 +4,8 @@ post = ""
 weight = 1
 +++
 
+### A closer look at the output
+
 Below is an example of an attribution report table, which shows the calculated ROAS by attribution channel.
 
 | conversion_window_start_date | conversion_window_end_date | channel           | conversions | revenue | spend  | roas |
@@ -46,5 +48,5 @@ For comparison, below is an example of the output of running a traditional last-
 | 2022-06-03                | 2022-08-01              | Video             | (↓)  1       | (↓)  8.49    | 10000.0| (↓)  0.001|
 
 ***
-The above attribution data can also be visualised, for example:
+The above attribution data can also be visualised in your preferred BI tool, for example:
 ![conversions_and_roas](../images/conversions_roas_browser.png)
