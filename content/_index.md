@@ -33,7 +33,7 @@ Here you will learn to:
 
 #### What you will learn
 
-In approximately half a day (~5.5 hours) you can achieve the following:
+In an estimated minimum of half a day (~5.5 hours) you can achieve the following:
 
 - **Upload -** Upload some sample data
 - **Model -** Configure and run the snowplow-fractribution data model
