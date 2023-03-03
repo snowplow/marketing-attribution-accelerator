@@ -51,10 +51,10 @@ Since we are using the fully featured `sp.js` file, the required E-commerce trac
 
 #### **Step 1:** Install browser-tracker package
 
-Install the `@snowplow/browser-tracker` and `@snowplow/browser-plugin-ecommerce` via npm, yarn or any other package manager of your choice. Example using `npm`:
+Install the `@snowplow/browser-tracker` and `@snowplow/browser-plugin-snowplow-ecommerce` via npm, yarn or any other package manager of your choice. Example using `npm`:
 
 ```bash
-npm install @snowplow/browser-tracker @snowplow/browser-plugin-ecommerce
+npm install @snowplow/browser-tracker @snowplow/browser-plugin-snowplow-ecommerce
 ```
 
 #### **Step 2:** Create the tracker
@@ -77,19 +77,17 @@ export const tracker = newTracker("sp", "{{Url for Collector}}", {
 });
 ```
 
-#### **Step 3:** Configure the tracker to use the `EcommercePlugin`
+#### **Step 3:** Configure the tracker to use the `SnowplowEcommercePlugin`
 
-To allow the tracker to use e-commerce methods from the `EcommercePlugin`, you need to include during the initialization of the tracker. By adding it on the `plugins` array, you gain access to the full functionality:
+To allow the tracker to use e-commerce methods from the SnowplowEcommercePlugin, you need to include during the initialization of the tracker. By adding it on the plugins array, you gain access to the full functionality:
 
 ```javascript
 import { newTracker } from "@snowplow/browser-tracker";
-import { EcommercePlugin } from "@snowplow/browser-plugin-ecommerce";
+import { SnowplowEcommercePlugin } from "@snowplow/browser-plugin-snowplow-ecommerce";
 
 export const tracker = newTracker("sp", "{{Url for Collector}}", {
-  appId: 'appId',
-  platform: 'web',
-  cookieSameSite: 'Lax',
-  plugins: [EcommercePlugin()],
+  /* tracker options */
+  plugins: [SnowplowEcommercePlugin()],
 });
 ```
 

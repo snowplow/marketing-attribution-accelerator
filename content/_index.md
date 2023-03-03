@@ -67,6 +67,7 @@ You can use the provided sample data to follow steps 1-3. If you have your own w
 #### Prerequisites
 
 - It is assumed that you are already familiar with the [snowplow-web](https://hub.getdbt.com/snowplow/snowplow_web/latest/) dbt package, or have a snowplow_web_page_views and Snowplow events table already in your data warehouse. If not, we recommend completing the [Advanced Analytics for Web](https://docs.snowplow.io/accelerators/web) accelerator.
+- It is preferable to be familiar with the [snowplow-ecommerce](https://hub.getdbt.com/snowplow/snowplow_ecommerce/latest/) dbt package, that you can use to process your transaction events which are needed for the conversion source for the `snowplow-fractribution` package to work.
 
 **Modeling**
 - dbt CLI installed / dbt Cloud account available
