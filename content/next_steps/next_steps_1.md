@@ -33,14 +33,6 @@ Assuming that you followed the guide on how to run the data model on the sample 
 
 - Change the `snowplow__start_date` variable according to the data you have in your events table.
 
-Optional:
-
-- `snowplow__backfill_limit_days`: The maximum number of days of new data to be processed since the latest event processed. Set it to 1.
-
-{{% notice note %}}
-We suggest changing `snowplow__backfill_limit_days` to 1 whilst working in your dev environment initially so that you can test how your incremental runs work. You will only have a few days of data available at this stage and if you leave it at the default 30 days, you will model all your data in one go.
-{{% /notice %}}
-
 #### **Step 3:** Run the snowplow_web model
 
 Execute the following either through your CLI or from within dbt Cloud
