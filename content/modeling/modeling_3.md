@@ -154,4 +154,4 @@ Take some time to familiarise yourself with the derived tables. These tables are
 
 ***
 
-Next we will run a Python script to create the actual Fractribution table.
+Next we will run a Python script to create the main output table, the `snowplow_fractribution_report_table`.
