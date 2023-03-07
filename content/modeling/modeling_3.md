@@ -91,11 +91,13 @@ vars:
 
 Paths to conversion are often similar, but not identical. As such, path transforms reduce unnecessary complexity in similar paths before running the attribution algorithm.
 
-There are five path transform options available:
-- Exposure (default in this package): the same events in succession are reduced to one: `A → A → B` becomes `A → B`. A compromise between first and unique.
-- UniquePath: all events in a path are treated as unique (no reduction of complexity). Best for smaller datasets (small lookback window) without a lot of retargeting.
-- First: keep only the first occurrence of any event: `A → B → A` becomes `A → B`. Best for brand awareness marketing.
-- Frequency: keep a count of the events' frequency: `A → A → B` becomes `A(2) → B`. Best when there is a lot of retargeting.
+There are six path transform options available:
+- `exposure_path` (default in this package): the same events in succession are reduced to one: `A → A → B` becomes `A → B`. A compromise between first and unique.
+- `unique_path`: all events in a path are treated as unique (no reduction of complexity). Best for smaller datasets (small lookback window) without a lot of retargeting.
+- `first_path`: keep only the first occurrence of any event: `A → B → A` becomes `A → B`. Best for brand awareness marketing.
+- `frequency_path`: keep a count of the events' frequency: `A → A → B` becomes `A(2) → B`. Best when there is a lot of retargeting.
+- `remove_if_last_and_not_all`: requires a channel to be added as a parameter, which gets removed from the latest paths unless it removes the whole path as it is trying to reach a non-matching channel parameter: E.g target element: A path: `A → B → A → A` becomes `A → B`.
+- `remove_if_not_all`: requires a channel to be added as a parameter, which gets removed from the path altogether unless it would result in the whole path's removal: E.g target element: A path: `A → B → A → A` becomes `B​`.
 
 
 #### **Step 2:** Configure macros
