@@ -20,6 +20,6 @@ You can then run the attribution analysis using this column instead of a revenue
 | 2022-06-03                | 2022-08-01              | Unmatched_Channel | 4.08        | 4.08    | 10000.0| 0.00040|
 | 2022-06-03                | 2022-08-01              | Video             | 1.5         | 1.5     | 10000.0| 0.00014|
 
-Note that 'revenue' in this table is now being calculated based the form_submitted column in the events/conversions table, where a conversion will only ever have a value of 1. This is why the values for conversions and revenue are identical.
+Note that 'revenue' in this table is now being calculated based on the form_submitted column in the events/conversions table, where a conversion will only ever have a value of 1. This is why the values for conversions and revenue are identical.
 
 You will notice that the values for ROAS in this example are extremely small. In a value-based calculation of ROAS, one conversion is generally associated with a value much greater than 1 (e.g. one conversion can have a purchase value of $100, etc.). When we calculate ROAS using one conversion equal to a value of 1, the ROAS figures can look very small depending on the number of conversions and the amount spent per channel.
