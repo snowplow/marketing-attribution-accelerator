@@ -26,4 +26,4 @@ Regardless if you followed steps 1-3 to learn how to perform Attribution Modelin
 
 Getting started with sending events using the JavaScript tracker is very similar to other web analytics vendors like Google Analytics and Adobe Analytics.
 
-We will be setting up two key events that are needed for fractribution: page_views and conversions.
+We will be setting up two key events that are needed for the attribution analysis: page_views and conversions.
