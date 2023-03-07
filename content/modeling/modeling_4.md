@@ -169,7 +169,3 @@ The output of the analysis will be built into the schema specified in your conne
 
 {{% /tab %}}
 {{</tabs >}}
-
-{{% notice info %}}
-Snowplow Attribution Modeling is closely based on Google's Fractional Attribution - coined Fractribution. If you would like to learn more about how it works, please see these [slides](https://github.com/google/fractribution/blob/master/Fractribution_Slides.pdf) and this [document](https://support.google.com/analytics/answer/3191594?hl=en#algorithm)
-{{% /notice %}}

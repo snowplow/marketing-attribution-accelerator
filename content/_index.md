@@ -82,5 +82,10 @@ You don't necessarily need to follow all the steps in order. You could choose to
 - Snowplow pipeline
 - Web app to implement tracking
 
+{{% notice info %}}
+Snowplow Attribution Modeling is closely based on Google's Fractional Attribution - coined Fractribution. If you would like to learn more about how it works, please see these [slides](https://github.com/google/fractribution/blob/master/Fractribution_Slides.pdf) and this [document](https://support.google.com/analytics/answer/3191594?hl=en#algorithm)
+{{% /notice %}}
+
+
 ***
 <sup>*</sup>ROAS: The amount of revenue that is earned for every dollar spent on advertising
