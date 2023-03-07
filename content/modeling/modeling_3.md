@@ -81,7 +81,7 @@ vars:
   snowplow__conversion_hosts: ['a.com']
   snowplow__path_lookback_steps: 0
   snowplow__path_lookback_days: 30
-  snowplow__path_transforms: {'exposure_path', null}
+  snowplow__path_transforms: {'exposure_path': null}
   snowplow__consider_intrasession_channels: false
   snowplow__channels_to_exclude: []
   snowplow__conversions_source: 'atomic.sample_events_fractribution'
