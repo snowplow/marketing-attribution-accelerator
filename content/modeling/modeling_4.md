@@ -1,5 +1,5 @@
 +++
-title= "Create Fractribution report table"
+title= "Create report table"
 weight = 4
 post = ""
 +++
