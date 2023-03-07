@@ -61,7 +61,10 @@ gantt
         1h          :next steps, after enrich, 1h
 
 {{</mermaid >}}
-You can use the provided sample data to follow steps 1-3. If you have your own website or single page application, you can also follow steps 4-6 to run fractribution analysis on your own data.
+
+{{% notice info %}}
+You don't necessarily need to follow all the steps in order. You could choose to skip steps 1-3 where you would learn how to perform Attribution Modeling through the sample data. If you have your own website or single page application, you could follow steps 4-6 to run the analysis on your own data right away and go through the first sections afterwards.
+{{% /notice %}}
 ***
 
 #### Prerequisites
