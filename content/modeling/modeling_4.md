@@ -122,7 +122,6 @@ pandas
 ```yml
 absl-py==1.2.0,
 snowflake-snowpark-python==0.11.0
-python=3.8
 ```
 
 ***
