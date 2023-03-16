@@ -78,7 +78,7 @@ You can use the provided sample data to follow steps 1-3. If you have your own w
 - Web app to implement tracking
 
 {{% notice info %}}
-Please note that Snowflake will be used for illustration. The snowplow-web dbt package also supports **BigQuery, Databricks, Postgres** and **Redshift**. Further adapter support for this accelerator will be added in future.
+Please note that Snowflake will be used for illustration. The snowplow-fractribution dbt package also supports **BigQuery and Databricks. Further adapter support for this accelerator will be added soon.
 {{% /notice %}}
 
 ***
