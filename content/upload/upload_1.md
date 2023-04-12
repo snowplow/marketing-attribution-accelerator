@@ -6,16 +6,15 @@ post = ""
 
 There are a number of options to load the sample Snowplow data to your Snowflake warehouse. Select the most suitable for your project below.
 
-{{% attachments style="blue" %}}
-{{% /attachments %}}
+{{< tabs groupId="select_upload" >}}
 
-{{< tabs groupId="select_upload_sf" >}}
+{{% tab name="Snowflake" %}}
 
-{{% tab name="Snowflake Web Interface" %}}
+We have provided a public S3 bucket where we store the sample data in a csv format:
 
-Download the `upload.zip` folder which contains the `sample_events_fractribution.csv` and the `snowflake_upload.py` files. You will only need `sample_events_fractribution.csv` to load the sample data to the Snowflake warehouse using the `Snowflake Web Interface`.
+url = https://snowplow-demo-datasets.s3.eu-central-1.amazonaws.com/Attribution_Modelling/Attribution_Modelling_sample_events.csv
 
-For more details please check out the official [Snowflake documentation](https://docs.snowflake.com/en/user-guide/data-load-web-ui.html).
+You will be able to load this file to your Snowflake warehouse with a few simple steps explained below.
 
 #### **Step 1:**  Create the ATOMIC schema
 If the ATOMIC schema doesn't exist, create it in your target database.
@@ -26,12 +25,12 @@ CREATE SCHEMA IF NOT EXISTS TARGET_DB.ATOMIC
 
 ***
 
-#### **Step 2:**  Create the SAMPLE_EVENTS_FRACTRIBUTION_BASE table
+#### **Step 2:**  Create the SAMPLE_EVENTS_ATTRIBUTION_BASE table
 This is where you will load the sample data to. You will need to modify the TARGET_DB according to your own database.
 
 
 ```sql
-  CREATE OR REPLACE TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION_BASE (
+  CREATE OR REPLACE TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE (
 
 	APP_ID VARCHAR(255),
 	PLATFORM VARCHAR(255),
@@ -169,38 +168,28 @@ This is where you will load the sample data to. You will need to modify the TARG
 
 ***
 
-#### **Step 3:** Load the data
-
-{{% notice info %}}
-Please note that the instructions are only valid when using the Snowflake Classic Console!
-{{% /notice %}}
-
-3.1 Log into your web interface and click on `Databases` tab.
-
-3.2 Locate the **SAMPLE_EVENTS_FRACTRIBUTION_BASE** table that you just created and select it.
-
-3.3 Click the `Load Data` button to open the Load Data wizard.
-
-3.4 Select the relevant warehouse from the dropdown list. Click `Next`.
-
-3.5 Within the `Source Files` section select `Load files from your computer` option and click the `Select Files` button. If you have not saved the sample file provided as an attachment above please do so.
-Navigate to the **sample_events_fractribution.csv** file and click the `Upload` then the `Next` button.
-
-3.6 Create a new File Format with the plus (+) symbol beside the dropdown list, give it a name and change the following settings of the default csv file formats:
-- `Header lines to skip`= 1
-- `Field optionally enclosed by`= Double Quote
-
-3.7 Click the `Load` button (no need to alter the Load Options). Loading should take place within a couple of minutes.
-
-For more details please check out the official [Snowflake documentation](https://docs.snowflake.com/en/user-guide/data-load-web-ui.html).
-
-***
-
-#### **Step 4:** Create the **ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION** table
+#### **Step 3:** Create stage
 
 
 ```sql
-CREATE OR REPLACE TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION AS (
+CREATE OR REPLACE STAGE snowplow_attribution_sample_stage
+url = 's3://snowplow-demo-datasets/Attribution_Modelling/Attribution_sample_events.csv'
+file_format = (TYPE=csv field_delimiter=',' skip_header=1, FIELD_OPTIONALLY_ENCLOSED_BY='"')
+```
+
+***
+#### **Step 4:** Copy into base table from stage
+
+```sql
+COPY INTO TARGET_DB.ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE
+FROM @snowplow_attribution_sample_stage
+```
+***
+
+#### **Step 5:** Create the **ATOMIC.SAMPLE_EVENTS_ATTRIBUTION** table
+
+```sql
+CREATE OR REPLACE TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_ATTRIBUTION AS (
 
 SELECT
 	APP_ID,
@@ -334,78 +323,440 @@ SELECT
 	LOAD_TSTAMP,
 	PARSE_JSON(REPLACE(REPLACE(CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1,'\"', ''),'''','\"')) as CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1
 
-FROM ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION_BASE )
+FROM ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE )
 
 ```
 
 ***
 
-#### **Step 5:**  Drop the **SAMPLE_EVENTS_FRACTRIBUTION_BASE** table
+#### **Step 6:**  Drop the **SAMPLE_EVENTS_ATTRIBUTION_BASE** table
 
 ```sql
-DROP TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION_BASE
+DROP TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE
 ```
-You will now have the ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION created and loaded with sample data.
+You will now have the ATOMIC.SAMPLE_EVENTS_ATTRIBUTION created and loaded with sample data.
 
 {{% /tab %}}
 
-{{% tab name="Python" %}}
+{{% tab name="Databricks" %}}
 
-Download the `upload.zip` folder which contains the `sample_events_fractribution.csv` and the `snowflake_upload.py` files. You will need both to load the sample data to the Snowflake warehouse with Python.
+We have provided a public S3 bucket where we store the sample data in a csv format, you should be able to download it locally through this [link](https://snowplow-demo-datasets.s3.eu-central-1.amazonaws.com/Attribution_Modelling/Attribution_Modelling_sample_events.csv ).
 
-#### **Step 1:**  Set up your environment
+You can load the sample data to the warehouse using your `Databricks Workspace` as described in the below steps.
 
-Set up a virtual environment (recommended) and install the [snowflake-connector-python](https://pypi.org/project/snowflake-connector-python/) package (tested with version 2.7.12).
+For more details please check out the official [Databricks documentation](https://docs.databricks.com/ingestion/add-data/index.html).
 
-Unzip the downloaded `upload.zip` file then navigate to the upload folder that contains the `snowflake_upload.py` script.
 
-Create and activate the virtual environment, then install `snowflake-connector-python`:
+#### **Step 1:**  Create the ATOMIC schema
+If the ATOMIC schema doesn't exist, create it in your target database.
 
-```bash
-pipenv shell
-pipenv install snowflake-connector-python==2.7.12
-```
-
-#### **Step 2:** Change variables and connection details
-
-Open the `snowflake_upload.py` file and edit the following variables.
-
-##### 2.1 Connection details - update username, password and account
-```python
-user = 'YOUR_USERNAME'
-password = 'YOUR_PASSWORD'
-account = 'YOUR_ACCOUNT'
-```
-
-##### 2.2 Variables to be modified - warehouse and database
-```python
-warehouse='YOUR_WAREHOUSE'
-database = 'YOUR_DB
-```
-##### 2.3 Path to the sample_events_fractribution.csv
-```python
-csv_file = '/path/to/sample_events_fractribution.csv'
-```
-
-#### **Step 3:** Upload Data
-Run `snowflake_upload.py`.
-```bash
-python3 snowflake_upload.py
-```
-
-It should finish execution within a minute. You should be alerted as soon as each intermediary step finishes:
+```sql
+CREATE SCHEMA IF NOT EXISTS ATOMIC
 
 ```
-Schema created
-Staging table YOUR_DB.ATOMIC.SAMPLE_EVENTS_STAGED_FRACTRIBUTION is created
-Stage dropped, if applicable
-Stage created
-File put to stage
-Data loaded into staging table
-Target table: YOUR_DB.ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION is created
-Staging table: YOUR_DB.ATOMIC.SAMPLE_EVENTS_STAGED_FRACTRIBUTION is dropped
+
+***
+
+#### **Step 2:**  Upload the csv file
+2.1 Make sure you are within the SQL workspace:
+
+![sql_workspace](../images/sql_workspace.png?width=20pc)
+
+2.2 Select `+Create` -> `table` to get started.
+
+2.3 Locate the `Attribution_Modelling_sample_events.csv` file and click `Upload`. It should take a minute or two.
+
+2.4 Once you see the preview, choose the catalog, the schema (atomic) and change the name to **sample_events_attribution_base**.
+
+2.5 Go to `advanced attributes` and change the column delimiter to tab then X out of the window. After this the data reloads, which will now be separated correctly column by column.
+
+2.6 Locate the column **DOC_WIDTH** on the far right side of the table and change the proposed column type from `string` to `bigint`. This is needed for the data model to work later on.
+
+2.7 Locate the column **DERIVED_TSTAMP** on the far right side of the table and changed the proposed column type from `string` to `datetime`.
+
+2.8 Click create.
+
+
+***
+
+#### **Step 3:** Create the **ATOMIC.SAMPLE_EVENTS_ATTRIBUTION** table
+
+The Snowplow pipeline creates context fields as arrays but uploading the test data can be achieved through string/varchar data type first. Run the below DDL statement in your SQL editor to create the `sample_events_attribution` table from the base table including the necessary conversions:
+
+```sql
+CREATE OR REPLACE TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_ATTRIBUTION AS (
+
+SELECT
+	APP_ID,
+	PLATFORM,
+	ETL_TSTAMP,
+	COLLECTOR_TSTAMP,
+	DVCE_CREATED_TSTAMP,
+	EVENT,
+	EVENT_ID,
+	TXN_ID,
+	NAME_TRACKER,
+	V_TRACKER,
+	V_COLLECTOR,
+	V_ETL,
+	USER_ID,
+	USER_IPADDRESS,
+	USER_FINGERPRINT,
+	DOMAIN_USERID,
+	DOMAIN_SESSIONIDX,
+	NETWORK_USERID,
+	GEO_COUNTRY,
+	GEO_REGION,
+	GEO_CITY,
+	GEO_ZIPCODE,
+	GEO_LATITUDE,
+	GEO_LONGITUDE,
+	GEO_REGION_NAME,
+	IP_ISP,
+	IP_ORGANIZATION,
+	IP_DOMAIN,
+	IP_NETSPEED,
+	PAGE_URL,
+	PAGE_TITLE,
+	PAGE_REFERRER,
+	PAGE_URLSCHEME,
+	PAGE_URLHOST,
+	PAGE_URLPORT,
+	PAGE_URLPATH,
+	PAGE_URLQUERY,
+	PAGE_URLFRAGMENT,
+	REFR_URLSCHEME,
+	REFR_URLHOST,
+	REFR_URLPORT,
+	REFR_URLPATH,
+	REFR_URLQUERY,
+	REFR_URLFRAGMENT,
+	REFR_MEDIUM,
+	REFR_SOURCE,
+	REFR_TERM,
+	MKT_MEDIUM,
+	MKT_SOURCE,
+	MKT_TERM,
+	MKT_CONTENT,
+	MKT_CAMPAIGN,
+	SE_CATEGORY,
+	SE_ACTION,
+	SE_LABEL,
+	SE_PROPERTY,
+	SE_VALUE,
+	TR_ORDERID,
+	TR_AFFILIATION,
+	TR_TOTAL,
+	TR_TAX,
+	TR_SHIPPING,
+	TR_CITY,
+	TR_STATE,
+	TR_COUNTRY,
+	TI_ORDERID,
+	TI_SKU,
+	TI_NAME,
+	TI_CATEGORY,
+	TI_PRICE,
+	TI_QUANTITY,
+	PP_XOFFSET_MIN,
+	PP_XOFFSET_MAX,
+	PP_YOFFSET_MIN,
+	PP_YOFFSET_MAX,
+	REPLACE(USERAGENT, '\"', '') as USERAGENT,
+	BR_NAME,
+	BR_FAMILY,
+	BR_VERSION,
+	BR_TYPE,
+	BR_RENDERENGINE,
+	BR_LANG,
+	BR_FEATURES_PDF,
+	BR_FEATURES_FLASH,
+	BR_FEATURES_JAVA,
+	BR_FEATURES_DIRECTOR,
+	BR_FEATURES_QUICKTIME,
+	BR_FEATURES_REALPLAYER,
+	BR_FEATURES_WINDOWSMEDIA,
+	BR_FEATURES_GEARS,
+	BR_FEATURES_SILVERLIGHT,
+	BR_COOKIES,
+	BR_COLORDEPTH,
+	BR_VIEWWIDTH,
+	BR_VIEWHEIGHT,
+	OS_NAME,
+	OS_FAMILY,
+	OS_MANUFACTURER,
+	OS_TIMEZONE,
+	DVCE_TYPE,
+	DVCE_ISMOBILE,
+	DVCE_SCREENWIDTH,
+	DVCE_SCREENHEIGHT,
+	DOC_CHARSET,
+	DOC_WIDTH,
+	DOC_HEIGHT,
+	TR_CURRENCY,
+	TR_TOTAL_BASE,
+	TR_TAX_BASE,
+	TR_SHIPPING_BASE,
+	TI_CURRENCY,
+	TI_PRICE_BASE,
+	BASE_CURRENCY,
+	GEO_TIMEZONE,
+	MKT_CLICKID,
+	MKT_NETWORK,
+	ETL_TAGS,
+	DVCE_SENT_TSTAMP,
+	REFR_DOMAIN_USERID,
+	REFR_DVCE_TSTAMP,
+	DOMAIN_SESSIONID,
+	DERIVED_TSTAMP,
+	EVENT_VENDOR,
+	EVENT_NAME,
+	EVENT_FORMAT,
+	EVENT_VERSION,
+	EVENT_FINGERPRINT,
+	TRUE_TSTAMP,
+	LOAD_TSTAMP,
+	FROM_JSON(REPLACE(REPLACE(CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1,'\"', ''),'''','\"'), 'array<struct<id:string>>') as CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1
+
+FROM ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE )
+
+
 ```
-You will now have the ATOMIC.SAMPLE_EVENTS_FRACTRIBUTION created and loaded with sample data.
+
+***
+
+#### **Step 4:**  Drop the **SAMPLE_EVENTS_ATTRIBUTION_BASE** table
+
+```sql
+DROP TABLE ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE
+```
+You will now have the ATOMIC.SAMPLE_EVENTS_ATTRIBUTION created and loaded with sample data.
+
 
 {{% /tab %}}
+
+{{% tab name="BigQuery" %}}
+
+We have provided a public S3 bucket where we store the sample data in a csv format, you should be able to download it locally through this [link](https://snowplow-demo-datasets.s3.eu-central-1.amazonaws.com/Attribution_Modelling/Attribution_Modelling_sample_events.csv ).
+
+You can load the sample data to the warehouse using your `BigQuery Console` as described in the below steps.
+
+For more details please check out the official [BigQuery documentation](https://cloud.google.com/bigquery/docs/batch-loading-data#console).
+
+
+#### **Step 1:**  Create the ATOMIC schema
+If the ATOMIC schema doesn't exist, create it in your target database.
+
+```sql
+CREATE SCHEMA IF NOT EXISTS ATOMIC
+
+```
+***
+
+#### **Step 2:**  Upload the csv file
+
+2.1 Open the `BigQuery` page in the [Google Cloud console](https://console.cloud.google.com/).
+
+2.2 In the `Explorer` panel, expand your project and select the `atomic` schema/dataset. You should see the details panel open, if not, expand the `Actions` option / click on the three vertical dots and click `Open`.
+
+2.3 In the `Details` panel, click `Create table`.
+
+3.4 On the `Create table` page fill out the sections:
+
+In the `Source` section:
+
+- For `Create table from`, select `Upload`.
+- For `Select file`, click `Browse`.
+Browse to the file, and click Open. Navigate to the `Attribution_Modelling_sample_events.csv` and select it.
+- Make sure `CSV` is selected for `File format`
+
+In the `Destination` section:
+
+On the `Create table` page,
+
+- For `Project`, choose the appropriate project (should be auto-populated).
+- For `Dataset` make sure it is `atomic` (should be auto-populated).
+- In the `Table` field put: `SAMPLE_EVENTS_ATTRIBUTION_BASE`
+Verify that Table type is set to `Native table`.
+
+On the `Schema` section:
+
+- Click `Auto-detect`
+
+Expand the `Advanced options` and put 1 for `Header rows to skip`
+
+- Click `Create table`. Wait for a minute or two and the table should be created.
+
+#### **Step 3:** Create the **ATOMIC.SAMPLE_EVENTS_ATTRIBUTION** table
+
+The Snowplow pipeline creates context fields as arrays but uploading the test data can be achieved through string/varchar data type first. Run the below DDL statement in your SQL editor to create the `sample_events_attribution` table from the base table including the necessary conversions:
+
+```
+CREATE OR REPLACE TABLE ATOMIC.SAMPLE_EVENTS_ATTRIBUTION AS (
+
+WITH prep as (
+
+	SELECT
+		*
+		except(CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1),
+		JSON_EXTRACT_ARRAY(REPLACE(REPLACE(CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1,'\"', ''),'\'','\"'))  AS CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1
+
+	FROM ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE
+)
+
+SELECT
+ 	APP_ID,
+	PLATFORM,
+	CAST(ETL_TSTAMP as TIMESTAMP) AS ETL_TSTAMP,
+	CAST(COLLECTOR_TSTAMP as TIMESTAMP) AS COLLECTOR_TSTAMP,
+	CAST(DVCE_CREATED_TSTAMP as TIMESTAMP) AS DVCE_CREATED_TSTAMP,
+	EVENT,
+	EVENT_ID,
+	CAST(TXN_ID AS INT64) AS TXN_ID,
+	NAME_TRACKER,
+	V_TRACKER,
+	V_COLLECTOR,
+	V_ETL,
+	USER_ID,
+	USER_IPADDRESS,
+	CAST(USER_FINGERPRINT AS INT64) AS USER_FINGERPRINT,
+	DOMAIN_USERID,
+	DOMAIN_SESSIONIDX,
+	NETWORK_USERID,
+	GEO_COUNTRY,
+	GEO_REGION,
+	GEO_CITY,
+	GEO_ZIPCODE,
+	GEO_LATITUDE,
+	GEO_LONGITUDE,
+	GEO_REGION_NAME,
+	IP_ISP,
+	IP_ORGANIZATION,
+	IP_DOMAIN,
+	IP_NETSPEED,
+	PAGE_URL,
+	PAGE_TITLE,
+	PAGE_REFERRER,
+	PAGE_URLSCHEME,
+	PAGE_URLHOST,
+	PAGE_URLPORT,
+	PAGE_URLPATH,
+	PAGE_URLQUERY,
+	PAGE_URLFRAGMENT,
+	REFR_URLSCHEME,
+	REFR_URLHOST,
+	REFR_URLPORT,
+	REFR_URLPATH,
+	REFR_URLQUERY,
+	REFR_URLFRAGMENT,
+	REFR_MEDIUM,
+	REFR_SOURCE,
+	REFR_TERM,
+	MKT_MEDIUM,
+	MKT_SOURCE,
+	MKT_TERM,
+	MKT_CONTENT,
+	MKT_CAMPAIGN,
+	SE_CATEGORY,
+	SE_ACTION,
+	SE_LABEL,
+	SE_PROPERTY,
+	SE_VALUE,
+	TR_ORDERID,
+	TR_AFFILIATION,
+	CAST(TR_TOTAL AS FLOAT64) AS TR_TOTAL,
+	TR_TAX,
+	TR_SHIPPING,
+	TR_CITY,
+	TR_STATE,
+	TR_COUNTRY,
+	TI_ORDERID,
+	TI_SKU,
+	TI_NAME,
+	TI_CATEGORY,
+	TI_PRICE,
+	TI_QUANTITY,
+	CAST(PP_XOFFSET_MIN AS INT64) AS PP_XOFFSET_MIN,
+	CAST(PP_XOFFSET_MAX AS INT64) AS PP_XOFFSET_MAX,
+	CAST(PP_YOFFSET_MIN AS INT64) AS PP_YOFFSET_MIN,
+	CAST(PP_YOFFSET_MAX AS INT64) AS PP_YOFFSET_MAX,
+	REPLACE(USERAGENT, '\"', '') as USERAGENT,
+	BR_NAME,
+	BR_FAMILY,
+	BR_VERSION,
+	BR_TYPE,
+	BR_RENDERENGINE,
+	BR_LANG,
+	BR_FEATURES_PDF,
+	BR_FEATURES_FLASH,
+	BR_FEATURES_JAVA,
+	BR_FEATURES_DIRECTOR,
+	BR_FEATURES_QUICKTIME,
+	BR_FEATURES_REALPLAYER,
+	BR_FEATURES_WINDOWSMEDIA,
+	BR_FEATURES_GEARS,
+	BR_FEATURES_SILVERLIGHT,
+	BR_COOKIES,
+	BR_COLORDEPTH,
+	CAST(BR_VIEWWIDTH AS INT64) AS BR_VIEWWIDTH,
+	CAST(BR_VIEWHEIGHT AS INT64) AS BR_VIEWHEIGHT,
+	OS_NAME,
+	OS_FAMILY,
+	OS_MANUFACTURER,
+	OS_TIMEZONE,
+	DVCE_TYPE,
+	DVCE_ISMOBILE,
+	CAST(DVCE_SCREENWIDTH AS INT64) AS DVCE_SCREENWIDTH,
+	CAST(DVCE_SCREENHEIGHT AS INT64) AS DVCE_SCREENHEIGHT,
+	DOC_CHARSET,
+	CAST(DOC_WIDTH AS INT64) AS DOC_WIDTH,
+	CAST(DOC_HEIGHT AS INT64) AS DOC_HEIGHT,
+	TR_CURRENCY,
+	TR_TOTAL_BASE,
+	TR_TAX_BASE,
+	TR_SHIPPING_BASE,
+	TI_CURRENCY,
+	TI_PRICE_BASE,
+	BASE_CURRENCY,
+	GEO_TIMEZONE,
+	MKT_CLICKID,
+	MKT_NETWORK,
+	ETL_TAGS,
+	CAST(DVCE_SENT_TSTAMP as TIMESTAMP) AS DVCE_SENT_TSTAMP,
+	REFR_DOMAIN_USERID,
+	CAST(REFR_DVCE_TSTAMP as TIMESTAMP) AS REFR_DVCE_TSTAMP,
+	DOMAIN_SESSIONID,
+	CAST(DERIVED_TSTAMP as TIMESTAMP) AS DERIVED_TSTAMP,
+	EVENT_VENDOR,
+	EVENT_NAME,
+	EVENT_FORMAT,
+	EVENT_VERSION,
+	EVENT_FINGERPRINT,
+	CAST(TRUE_TSTAMP as TIMESTAMP) AS TRUE_TSTAMP,
+	CAST(LOAD_TSTAMP as TIMESTAMP) AS LOAD_TSTAMP,
+  array(
+    SELECT as struct JSON_EXTRACT_scalar(json_array,'$.id') as id
+    from unnest(CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1) as json_array
+    ) as CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1_0_0
+
+FROM prep
+
+)
+
+```
+
+***
+
+#### **Step 4:**  Drop the **SAMPLE_EVENTS_ATTRIBUTION_BASE** table
+
+```sql
+DROP TABLE ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE
+```
+You will now have the ATOMIC.SAMPLE_EVENTS_ATTRIBUTION created and loaded with sample data.
+
+
+
+{{% /tab %}}
+
+
 {{< /tabs >}}

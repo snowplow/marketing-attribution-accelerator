@@ -4,7 +4,7 @@ weight = 3
 post = ""
 +++
 
-The snowplow_web_page_views (created by the snowplow_web package) and sample_events_fractribution tables will be used to demonstrate how to set-up and run the snowplow_fractribution dbt package to create the tables needed for attribution modeling.
+The snowplow_web_page_views (created by the snowplow_web package) and sample_events_attribution tables will be used to demonstrate how to set-up and run the snowplow_fractribution dbt package to create the tables needed for attribution modeling.
 
 ***
 
@@ -84,7 +84,7 @@ vars:
   snowplow__path_transforms: {'exposure_path': null}
   snowplow__consider_intrasession_channels: false
   snowplow__channels_to_exclude: []
-  snowplow__conversions_source: 'atomic.sample_events_fractribution'
+  snowplow__conversions_source: 'atomic.sample_events_attribution'
 ```
 
 **Path Transform Options**

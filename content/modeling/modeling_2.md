@@ -17,7 +17,7 @@ snowplow__start_date: '2022-06-03'
 snowplow__enable_iab: false
 snowplow__enable_ua: false
 snowplow__enable_yauaa: false
-snowplow__events: 'atomic.sample_events_fractribution'
+snowplow__events: 'atomic.sample_events_attribution'
 ```
 
 #### **Step 2:** Run the package
