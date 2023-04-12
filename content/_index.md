@@ -6,8 +6,6 @@ chapter = false
 weight = 1
 +++
 
-!['logo-banner'](images/logo_banner_2.png)
-
 ### Attribution Modeling Accelerator
 
 #### Introduction
