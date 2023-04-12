@@ -35,7 +35,7 @@ In an estimated minimum of half a day (~5.5 hours) you can achieve the following
 
 - **Upload -** Upload some sample data
 - **Model -** Configure and run the snowplow-fractribution data model
-- **Visualise -** Visualise an example table output
+- **Visualise -** Have a closer look at the Attribution Modeling report table to better understand the outcome of the analysis.
 - **Track -** Set-up and deploy tracking needed for your website or single page application for being able to perform attribution modeling
 - **Enrich -** Add an enrichment to your data
 - **Next steps -** Gain value from your own pipeline data
