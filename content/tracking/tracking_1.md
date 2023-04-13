@@ -22,7 +22,7 @@ Place the `<script>` tag into the `<head>` element of your page.
 <!-- Typically this will be placed into the `<head>` element of your page or in a similar, suitable, location if using a Single Page Application framework. -->
 
 ```html
-<script type="text/javascript" async=1 >
+<script type="text/javascript">
 ;(function (p, l, o, w, i, n, g) { if (!p[i]) { p.GlobalSnowplowNamespace = p.GlobalSnowplowNamespace || []; p.GlobalSnowplowNamespace.push(i); p[i] = function () { (p[i].q = p[i].q || []).push(arguments) }; p[i].q = p[i].q || []; n = l.createElement(o); g = l.getElementsByTagName(o)[0]; n.async = 1; n.src = w; g.parentNode.insertBefore(n, g) } }(window, document, "script", "{{Link to sp.js file}}", "snowplow"));
 </script>
 ```
@@ -44,7 +44,17 @@ window.snowplow('newTracker', 'sp', '{{Url for Collector}}', {
 });
 ```
 
-Since we are using the fully featured `sp.js` file, the required E-commerce tracking capabilities are included by default.
+To start tracking ecommerce interactions, you need to load the `SnowplowEcommercePlugin` to your tracker. To add the plugin on the tracker and enable the usage of the e-commerce API, you should include it as shown below:
+
+```js
+window.snowplow(
+  "addPlugin:sp",
+  "https://cdn.jsdelivr.net/npm/@snowplow/browser-plugin-snowplow-ecommerce@3/dist/index.umd.min.js",
+  ["snowplowEcommerceAccelerator", "SnowplowEcommercePlugin"]
+);
+```
+
+Now the tracker has everything required to start collecting e-commerce action data. On the next step we are going to see how to use the available APIs.
 
 {{% /tab %}}
 {{% tab name="Package Manager" %}}

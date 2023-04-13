@@ -3,6 +3,8 @@ title = "Tracking Events"
 weight = 2
 +++
 
+#### A few words about our web trackers
+
 The trackers create data on user **actions** at a specific point in time. For example:
 
 - Loading a web page
@@ -15,6 +17,8 @@ A number of tracking events are available out of the box. These include, but are
 - Heartbeats (Page Pings)
 - Link clicks
 - HTML form actions
+
+In this section we will focus on tracking **page views** and **transactions** which are the bare minimum to run the fractribution package.
 
 {{< tabs groupId="select_js" >}}
 {{% tab name="JavaScript API" %}}
@@ -35,7 +39,8 @@ In addition to pageviews, we need to track transactions in order to determine wh
 - **Transaction Tracking** - Captures transaction events that are used to track the successful completion of a purchase/transaction on your e-commerce store
 
 ####  **Step 2:** Perform Transaction Tracking
-#### `trackTransaction`
+
+##### `trackTransaction`
 
 To track a completed transaction you can use the `trackTransaction` method with the following attributes:
 
@@ -200,5 +205,5 @@ Where `product` can have the following attributes:
 
 For more information on the e-commerce tracking, you can take a look at the [documentation](https://docs.snowplow.io/docs/collecting-data/collecting-from-own-applications/javascript-trackers/javascript-tracker/javascript-tracker-v3/plugins/snowplow-ecommerce/) for this plugin and its methods.
 
-or check out the [Ecommerce acceleator](https://docs.snowplow.io/accelerators/ecommerce)
+or check out the [Ecommerce accelerator](https://docs.snowplow.io/accelerators/ecommerce)
 
