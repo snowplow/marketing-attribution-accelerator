@@ -173,7 +173,7 @@ This is where you will load the sample data to. You will need to modify the TARG
 
 ```sql
 CREATE OR REPLACE STAGE snowplow_attribution_sample_stage
-url = 's3://snowplow-demo-datasets/Attribution_Modelling/Attribution_sample_events.csv'
+url = 's3://snowplow-demo-datasets/Attribution_Modelling/Attribution_Modelling_sample_events.csv'
 file_format = (TYPE=csv field_delimiter=',' skip_header=1, FIELD_OPTIONALLY_ENCLOSED_BY='"')
 ```
 
@@ -340,7 +340,7 @@ You will now have the ATOMIC.SAMPLE_EVENTS_ATTRIBUTION created and loaded with s
 
 {{% tab name="Databricks" %}}
 
-We have provided a public S3 bucket where we store the sample data in a csv format, you should be able to download it locally through this [link](https://snowplow-demo-datasets.s3.eu-central-1.amazonaws.com/Attribution_Modelling/Attribution_Modelling_sample_events.csv ).
+We have provided a public S3 bucket where we store the sample data in a csv format, you should be able to download it locally through this [link](https://snowplow-demo-datasets.s3.eu-central-1.amazonaws.com/Attribution_Modelling/Attribution_Modelling_sample_events_tab_separated.csv ).
 
 You can load the sample data to the warehouse using your `Databricks Workspace` as described in the below steps.
 
@@ -362,19 +362,15 @@ CREATE SCHEMA IF NOT EXISTS ATOMIC
 
 ![sql_workspace](../images/sql_workspace.png?width=20pc)
 
-2.2 Select `+Create` -> `table` to get started.
+2.2 Select `+New` -> `File upload` to get started.
 
-2.3 Locate the `Attribution_Modelling_sample_events.csv` file and click `Upload`. It should take a minute or two.
+2.3 Click `Browse` and locate the `Attribution_Modelling_sample_events_tab_separated.csv` file and click `Open`. It should take a minute or two to load.
 
-2.4 Once you see the preview, choose the catalog, the schema (atomic) and change the name to **sample_events_attribution_base**.
+2.4 Once you see the preview, specify the catalog, the schema (atomic) and change the name to **sample_events_attribution_base**.
 
-2.5 Go to `advanced attributes` and change the column delimiter to tab then X out of the window. After this the data reloads, which will now be separated correctly column by column.
+2.5 Go to `advanced attributes` and change the column delimiter to `tab` then X out of the window. After this the data reloads, which will now be separated correctly column by column.
 
-2.6 Locate the column **DOC_WIDTH** on the far right side of the table and change the proposed column type from `string` to `bigint`. This is needed for the data model to work later on.
-
-2.7 Locate the column **DERIVED_TSTAMP** on the far right side of the table and changed the proposed column type from `string` to `datetime`.
-
-2.8 Click create.
+2.6 Click create.
 
 
 ***
@@ -389,19 +385,19 @@ CREATE OR REPLACE TABLE TARGET_DB.ATOMIC.SAMPLE_EVENTS_ATTRIBUTION AS (
 SELECT
 	APP_ID,
 	PLATFORM,
-	ETL_TSTAMP,
-	COLLECTOR_TSTAMP,
-	DVCE_CREATED_TSTAMP,
+	CAST(ETL_TSTAMP as TIMESTAMP) AS ETL_TSTAMP,
+	CAST(COLLECTOR_TSTAMP as TIMESTAMP) AS COLLECTOR_TSTAMP,
+	CAST(DVCE_CREATED_TSTAMP as TIMESTAMP) AS DVCE_CREATED_TSTAMP,
 	EVENT,
 	EVENT_ID,
-	TXN_ID,
+	CAST(TXN_ID AS BIGINT) AS TXN_ID,
 	NAME_TRACKER,
 	V_TRACKER,
 	V_COLLECTOR,
 	V_ETL,
 	USER_ID,
 	USER_IPADDRESS,
-	USER_FINGERPRINT,
+	CAST(USER_FINGERPRINT AS BIGINT) AS USER_FINGERPRINT,
 	DOMAIN_USERID,
 	DOMAIN_SESSIONIDX,
 	NETWORK_USERID,
@@ -446,7 +442,7 @@ SELECT
 	SE_VALUE,
 	TR_ORDERID,
 	TR_AFFILIATION,
-	TR_TOTAL,
+	CAST(TR_TOTAL AS FLOAT) AS TR_TOTAL,
 	TR_TAX,
 	TR_SHIPPING,
 	TR_CITY,
@@ -458,10 +454,10 @@ SELECT
 	TI_CATEGORY,
 	TI_PRICE,
 	TI_QUANTITY,
-	PP_XOFFSET_MIN,
-	PP_XOFFSET_MAX,
-	PP_YOFFSET_MIN,
-	PP_YOFFSET_MAX,
+	CAST(PP_XOFFSET_MIN AS BIGINT) AS PP_XOFFSET_MIN,
+	CAST(PP_XOFFSET_MAX AS BIGINT) AS PP_XOFFSET_MAX,
+	CAST(PP_YOFFSET_MIN AS BIGINT) AS PP_YOFFSET_MIN,
+	CAST(PP_YOFFSET_MAX AS BIGINT) AS PP_YOFFSET_MAX,
 	REPLACE(USERAGENT, '\"', '') as USERAGENT,
 	BR_NAME,
 	BR_FAMILY,
@@ -480,19 +476,19 @@ SELECT
 	BR_FEATURES_SILVERLIGHT,
 	BR_COOKIES,
 	BR_COLORDEPTH,
-	BR_VIEWWIDTH,
-	BR_VIEWHEIGHT,
+	CAST(BR_VIEWWIDTH AS BIGINT) AS BR_VIEWWIDTH,
+	CAST(BR_VIEWHEIGHT AS BIGINT) AS BR_VIEWHEIGHT,
 	OS_NAME,
 	OS_FAMILY,
 	OS_MANUFACTURER,
 	OS_TIMEZONE,
 	DVCE_TYPE,
 	DVCE_ISMOBILE,
-	DVCE_SCREENWIDTH,
-	DVCE_SCREENHEIGHT,
+	CAST(DVCE_SCREENWIDTH AS BIGINT) AS DVCE_SCREENWIDTH,
+	CAST(DVCE_SCREENHEIGHT AS BIGINT) AS DVCE_SCREENHEIGHT,
 	DOC_CHARSET,
-	DOC_WIDTH,
-	DOC_HEIGHT,
+	CAST(DOC_WIDTH AS BIGINT) AS DOC_WIDTH,
+	CAST(DOC_HEIGHT AS BIGINT) AS DOC_HEIGHT,
 	TR_CURRENCY,
 	TR_TOTAL_BASE,
 	TR_TAX_BASE,
@@ -504,18 +500,18 @@ SELECT
 	MKT_CLICKID,
 	MKT_NETWORK,
 	ETL_TAGS,
-	DVCE_SENT_TSTAMP,
+	CAST(DVCE_SENT_TSTAMP as TIMESTAMP) AS DVCE_SENT_TSTAMP,
 	REFR_DOMAIN_USERID,
-	REFR_DVCE_TSTAMP,
+	CAST(REFR_DVCE_TSTAMP as TIMESTAMP) AS REFR_DVCE_TSTAMP,
 	DOMAIN_SESSIONID,
-	DERIVED_TSTAMP,
+	CAST(DERIVED_TSTAMP as TIMESTAMP) AS DERIVED_TSTAMP,
 	EVENT_VENDOR,
 	EVENT_NAME,
 	EVENT_FORMAT,
 	EVENT_VERSION,
 	EVENT_FINGERPRINT,
-	TRUE_TSTAMP,
-	LOAD_TSTAMP,
+	CAST(TRUE_TSTAMP as TIMESTAMP) AS TRUE_TSTAMP,
+	CAST(LOAD_TSTAMP as TIMESTAMP) AS LOAD_TSTAMP,
 	FROM_JSON(REPLACE(REPLACE(CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1,'\"', ''),'''','\"'), 'array<struct<id:string>>') as CONTEXTS_COM_SNOWPLOWANALYTICS_SNOWPLOW_WEB_PAGE_1
 
 FROM ATOMIC.SAMPLE_EVENTS_ATTRIBUTION_BASE )
@@ -539,7 +535,7 @@ You will now have the ATOMIC.SAMPLE_EVENTS_ATTRIBUTION created and loaded with s
 
 We have provided a public S3 bucket where we store the sample data in a csv format, you should be able to download it locally through this [link](https://snowplow-demo-datasets.s3.eu-central-1.amazonaws.com/Attribution_Modelling/Attribution_Modelling_sample_events.csv ).
 
-You can load the sample data to the warehouse using your `BigQuery Console` as described in the below steps.
+You can load the sample data to the warehouse using your [Google Cloud console](https://console.cloud.google.com/) as described in the below steps.
 
 For more details please check out the official [BigQuery documentation](https://cloud.google.com/bigquery/docs/batch-loading-data#console).
 
@@ -557,7 +553,7 @@ CREATE SCHEMA IF NOT EXISTS ATOMIC
 
 2.1 Open the `BigQuery` page in the [Google Cloud console](https://console.cloud.google.com/).
 
-2.2 In the `Explorer` panel, expand your project and select the `atomic` schema/dataset. You should see the details panel open, if not, expand the `Actions` option / click on the three vertical dots and click `Open`.
+2.2 In the `Explorer` panel, expand your project and select the `atomic` schema/dataset. You should see the details panel open, if not, expand the `Actions` option (click on the three vertical dots) and click `Open`.
 
 2.3 In the `Details` panel, click `Create table`.
 
@@ -566,8 +562,7 @@ CREATE SCHEMA IF NOT EXISTS ATOMIC
 In the `Source` section:
 
 - For `Create table from`, select `Upload`.
-- For `Select file`, click `Browse`.
-Browse to the file, and click Open. Navigate to the `Attribution_Modelling_sample_events.csv` and select it.
+- For `Select file`, click `Browse`. Navigate to the `Attribution_Modelling_sample_events.csv` and open it.
 - Make sure `CSV` is selected for `File format`
 
 In the `Destination` section:

@@ -18,6 +18,7 @@ snowplow__enable_iab: false
 snowplow__enable_ua: false
 snowplow__enable_yauaa: false
 snowplow__events: 'atomic.sample_events_attribution'
+snowplow__backfill_limit_days: 60
 ```
 
 #### **Step 2:** Run the package
