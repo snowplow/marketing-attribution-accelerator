@@ -68,6 +68,9 @@ from revenue
 
 2. The out of the box option is to use the `snowplow-ecommerce` data model's `snowplow_ecommerce_transaction_interactions` table which will generate the `transaction_revenue` field needed to calculate the total revenue from conversions. For more details on how to achieve this check out the [Ecommerce accelerator](https://docs.snowplow.io/accelerators/ecommerce).
 
+
+3. For the sake of simplicity, if you use the sample data as a data source all you need to do is set `snowplow__conversions_source: 'atomic.sample_events_attribution'` in your dbt_project.yml as it comes with a `tr_total` field with the revenue data.
+
 ***
 
 You only need to set the variables for those that differ from the default.
@@ -104,7 +107,7 @@ There are six path transform options available:
 
 **Configure the conversion_clause macro**
 
-The conversion_macro specifies how to filter Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. If you are using the e-commerce model, you will still need to set this to enable the models to run (even though all events are conversions in the e-commerce model), just change it to `transaction_revenue > 0`.
+The conversion_macro specifies how to filter Snowplow events to only conversion events. How this is filtered will depend on your definition of a conversion. The default is filtering to events where `tr_total > 0`, but this could instead filter on `event_name = 'checkout'`, for example. The sample data uses `tr_total` so you don't need to change anything for now if you rely on that. If you are using the e-commerce model, you will still need to set this to enable the models to run (even though all events are conversions in the e-commerce model), just change it to `transaction_revenue > 0`.
 
 If you wish to change this filter, copy the `conversion_clause.sql` file from the macros folder in the snowplow_fractribution package (at `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/conversion_clause.sql`) and add it to the macros folder of your own dbt project. Update the filter and save the file.
 

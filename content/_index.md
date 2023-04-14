@@ -74,7 +74,7 @@ You don't necessarily need to follow all the steps in order. You could choose to
 - dbt CLI installed / dbt Cloud account available
   - New dbt project created and configured
 - Python 3 Installed
-- Snowflake, Databricsks or BigQuery account and a user with access to create schemas and tables
+- Snowflake, Databricks or BigQuery account and a user with access to create schemas and tables
 
 **Tracking and Enrichment**
 - Snowplow pipeline
