@@ -1,5 +1,5 @@
-# Fractional Attribution Accelerator
-This accelerator guides the user through how to set-up and run fractional attribution analysis on Snowplow data, coined 'Fractribution'.
+# Attribution Modeling Accelerator
+This accelerator guides the user through how to set-up and run attribution modeling on Snowplow data.
 
 ## Installation
 

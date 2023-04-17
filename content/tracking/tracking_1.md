@@ -22,7 +22,7 @@ Place the `<script>` tag into the `<head>` element of your page.
 <!-- Typically this will be placed into the `<head>` element of your page or in a similar, suitable, location if using a Single Page Application framework. -->
 
 ```html
-<script type="text/javascript" async=1 >
+<script type="text/javascript">
 ;(function (p, l, o, w, i, n, g) { if (!p[i]) { p.GlobalSnowplowNamespace = p.GlobalSnowplowNamespace || []; p.GlobalSnowplowNamespace.push(i); p[i] = function () { (p[i].q = p[i].q || []).push(arguments) }; p[i].q = p[i].q || []; n = l.createElement(o); g = l.getElementsByTagName(o)[0]; n.async = 1; n.src = w; g.parentNode.insertBefore(n, g) } }(window, document, "script", "{{Link to sp.js file}}", "snowplow"));
 </script>
 ```
@@ -44,17 +44,27 @@ window.snowplow('newTracker', 'sp', '{{Url for Collector}}', {
 });
 ```
 
-Since we are using the fully featured `sp.js` file, the required E-commerce tracking capabilities are included by default.
+To start tracking ecommerce interactions, you need to load the `SnowplowEcommercePlugin` to your tracker. To add the plugin on the tracker and enable the usage of the e-commerce API, you should include it as shown below:
+
+```js
+window.snowplow(
+  "addPlugin:sp",
+  "https://cdn.jsdelivr.net/npm/@snowplow/browser-plugin-snowplow-ecommerce@3/dist/index.umd.min.js",
+  ["snowplowEcommerceAccelerator", "SnowplowEcommercePlugin"]
+);
+```
+
+Now the tracker has everything required to start collecting e-commerce action data. On the next step we are going to see how to use the available APIs.
 
 {{% /tab %}}
 {{% tab name="Package Manager" %}}
 
 #### **Step 1:** Install browser-tracker package
 
-Install the `@snowplow/browser-tracker` and `@snowplow/browser-plugin-ecommerce` via npm, yarn or any other package manager of your choice. Example using `npm`:
+Install the `@snowplow/browser-tracker` and `@snowplow/browser-plugin-snowplow-ecommerce` via npm, yarn or any other package manager of your choice. Example using `npm`:
 
 ```bash
-npm install @snowplow/browser-tracker @snowplow/browser-plugin-ecommerce
+npm install @snowplow/browser-tracker @snowplow/browser-plugin-snowplow-ecommerce
 ```
 
 #### **Step 2:** Create the tracker
@@ -77,19 +87,17 @@ export const tracker = newTracker("sp", "{{Url for Collector}}", {
 });
 ```
 
-#### **Step 3:** Configure the tracker to use the `EcommercePlugin`
+#### **Step 3:** Configure the tracker to use the `SnowplowEcommercePlugin`
 
-To allow the tracker to use e-commerce methods from the `EcommercePlugin`, you need to include during the initialization of the tracker. By adding it on the `plugins` array, you gain access to the full functionality:
+To allow the tracker to use e-commerce methods from the SnowplowEcommercePlugin, you need to include during the initialization of the tracker. By adding it on the plugins array, you gain access to the full functionality:
 
 ```javascript
 import { newTracker } from "@snowplow/browser-tracker";
-import { EcommercePlugin } from "@snowplow/browser-plugin-ecommerce";
+import { SnowplowEcommercePlugin } from "@snowplow/browser-plugin-snowplow-ecommerce";
 
 export const tracker = newTracker("sp", "{{Url for Collector}}", {
-  appId: 'appId',
-  platform: 'web',
-  cookieSameSite: 'Lax',
-  plugins: [EcommercePlugin()],
+  /* tracker options */
+  plugins: [SnowplowEcommercePlugin()],
 });
 ```
 

@@ -6,19 +6,17 @@ post = ""
 
 
 #### **Step 1:** Add snowplow_fractribution package
-Add the snowplow_fractribution package to your packages.yml file. You should already have the snowplow_web package present in the packages.yml file.
+Add the latest snowplow_fractribution package to your packages.yml file. You should already have the snowplow_web package present in the packages.yml file.
 
-{{% notice info %}}
-Please note that this accelerator currently only supports v0.1.0 of the snowplow_fractribution package.
-{{% /notice %}}
 
 ```yml
 packages:
   - package: snowplow/snowplow_fractribution
-    version: 0.1.0
+    version: 0.2.0
   - package: snowplow/snowplow_web
     version: {{<component name="snowplow_web_latest">}}
 ```
+
 
 ***
 
