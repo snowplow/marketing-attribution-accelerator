@@ -4,7 +4,7 @@ weight = 1
 post = ""
 +++
 
-There are a number of options to load the sample Snowplow data to your Snowflake warehouse. Select the most suitable for your project below.
+There are a number of options to load the sample Snowplow data to your warehouse. Select the most suitable for your project below.
 
 {{< tabs groupId="select_upload" >}}
 
