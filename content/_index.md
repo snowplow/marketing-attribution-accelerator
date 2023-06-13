@@ -25,7 +25,7 @@ Here you will learn to:
 
 - Data practitioners who would like to get familiar with further options for modeling Snowplow data.
 - Data practitioners who want to learn how to use the snowplow_fractribution dbt package, to gain insight into ROAS figures using attribution modeling as quickly as possible.
-- This accelerator currently supports Snowflake, BigQuery and Databricks
+- This accelerator currently supports Snowflake, BigQuery, Redshift and Databricks
 
 ***
 
@@ -74,7 +74,7 @@ You don't necessarily need to follow all the steps in order. You could choose to
 - dbt CLI installed / dbt Cloud account available
   - New dbt project created and configured
 - Python 3 Installed
-- Snowflake, Databricks or BigQuery account and a user with access to create schemas and tables
+- Snowflake, Databricks, Redshift or BigQuery account and a user with access to create schemas and tables
 
 **Tracking and Enrichment**
 - Snowplow pipeline

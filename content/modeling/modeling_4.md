@@ -73,7 +73,7 @@ redshift_user=redshift_user
 redshift_password=redshift_password
 ```
 
-Additionally, regardless of your data warehouse, you need to to provide the conversion window start and end date and optionally the attribution model if you wish not to use the default, e.g.:
+Additionally, regardless of your data warehouse, you need to provide the conversion window start and end date and optionally the attribution model if you wish not to use the default, e.g.:
 
 ```yml
 conversion_window_start_date='2022-06-03'
