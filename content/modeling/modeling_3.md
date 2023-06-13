@@ -65,6 +65,18 @@ from revenue
 
 ```
 
+> Snowflake Only
+> If you are using Snowflake, you can automatically run the python scripts using Snowpark when running the dbt package. This is done using macros that create and run a stored procedure on Snowpark after the dbt models have completed.
+> To enable this you need to set some additional variables. For example, to enable this and use the `last_touch` attribution model:
+> ```yml
+> # dbt_project.yml
+> ...
+> vars:
+>   snowplow_fractribution:
+>    snowplow__run_python_script_in_snowpark: true
+>    snowplow__attribution_model_for_snowpark: 'last_touch'
+> ```
+
 
 2. The out of the box option is to use the `snowplow-ecommerce` data model's `snowplow_ecommerce_transaction_interactions` table which will generate the `transaction_revenue` field needed to calculate the total revenue from conversions. For more details on how to achieve this check out the [Ecommerce accelerator](https://docs.snowplow.io/accelerators/ecommerce).
 
