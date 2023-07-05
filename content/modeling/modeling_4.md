@@ -71,13 +71,15 @@ redshift_database=redshift_database
 redshift_port=redshift_port
 redshift_user=redshift_user
 redshift_password=redshift_password
+redshift_schema=redshift_schema
 ```
 
-Additionally, regardless of your data warehouse, you need to provide the conversion window start and end date and optionally the attribution model if you wish not to use the default, e.g.:
+Additionally, regardless of your data warehouse, you need to provide the conversion window start and end date, the warehouse you are using (one of snowflake, bigquery, databricks, or redshift) and optionally the attribution model if you wish not to use the default, e.g.:
 
 ```yml
 conversion_window_start_date='2022-06-03'
 conversion_window_end_date='2022-08-01'
+warehouse=snowflake
 attribution_model=first_touch
 ```
 
@@ -175,7 +177,8 @@ export redshift_host=redshift_host\
 export redshift_database=redshift_database\
 export redshift_port=redshift_port\
 export redshift_user=redshift_user\
-export redshift_password=redshift_password
+export redshift_password=redshift_password\
+export redshift_schema=redshift_schema
 ```
 
 #### Run the script
