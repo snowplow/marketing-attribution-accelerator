@@ -4,7 +4,7 @@ weight = 4
 post = ""
 +++
 
-Data from the snowplow_fractribution dbt package should now be in your warehouse. Next we need to create the report table. There are three ways to to this - by pulling a Docker container image, or with Python locally, using the scripts in the `utils` folder in the dbt package, or if you are on Snowflake you can run the python via Snowpark (recommended).
+Data from the `snowplow_fractribution` dbt package should now be in your warehouse. Next we need to create the report table. There are three ways to to this - by pulling a Docker container image, or with Python locally, using the scripts in the `utils` folder in the dbt package, or if you are on Snowflake you can run the python via Snowpark (recommended).
 
 
 All methods support the choice of a variety of attribution models types:

@@ -10,7 +10,7 @@ As such, this tutorial assumes that you are already familiar with the `snowplow-
 
 
 #### **Step 1:** Update variables for provided sample data
-Ensure that snowplow_web specific variables are set in your dbt_project.yml file that are appropriate for the provided sample data, particularly:
+Ensure that snowplow_web specific variables are set in your `dbt_project.yml` file that are appropriate for the provided sample data, particularly:
 
 ```
 snowplow__start_date: '2022-06-03'
@@ -21,13 +21,15 @@ snowplow__events: 'atomic.sample_events_attribution'
 snowplow__backfill_limit_days: 60
 ```
 
+For further details you can have a look at our [docs](https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/web/) which contains descriptions and default values of each variable.
+
 #### **Step 2:** Run the package
 It is important to ensure that the schemas and tables this will build into will not overwrite any tables you wish to keep.
-You can change the schema in your profiles.yml if you wish to ensure nothing will be overwritten.
+You can change the schema in your `profiles.yml` if you wish to ensure nothing will be overwritten.
 
 Run the snowplow_web package
 ```
 dbt run --selector snowplow_web --full-refresh --vars 'snowplow__allow_refresh: true'
 ```
 
-This should have created the table `<your_schema>_derived.snowplow_web_page_views`. This is the table that we will be using in the snowplow_fractribution package.
+This should have created the table `<your_schema>_derived.snowplow_web_page_views`. This is the table that we will be using in the `snowplow_fractribution` package.

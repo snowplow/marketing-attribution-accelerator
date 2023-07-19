@@ -10,15 +10,15 @@ For example, if you have a column in your events/conversions table with a 1 for 
 
 You can then run the attribution analysis using this column instead of a revenue column. An example output of the report table would look like this:
 
-| conversion_window_start_date | conversion_window_end_date | channel           | conversions | revenue | spend  | roas |
-| ------------------------- | ----------------------- | ----------------- | ----------- | ------- | ------ | ---- |
-| 2022-06-03                | 2022-08-01              | Direct            | 699.8       | 699.8   | 10000.0| 0.06997|
-| 2022-06-03                | 2022-08-01              | Organic_Search    | 269.5       | 269.5   | 10000.0| 0.02695|
-| 2022-06-03                | 2022-08-01              | Paid_Search_Other | 50.4        | 50.4    | 10000.0| 0.00504|
-| 2022-06-03                | 2022-08-01              | Display_Other     | 21.3        | 21.3    | 10000.0| 0.00213|
-| 2022-06-03                | 2022-08-01              | Referral          | 12.4        | 12.4    | 10000.0| 0.00123|
-| 2022-06-03                | 2022-08-01              | Unmatched_Channel | 4.08        | 4.08    | 10000.0| 0.00040|
-| 2022-06-03                | 2022-08-01              | Video             | 1.5         | 1.5     | 10000.0| 0.00014|
+| conversion_window_start_date | conversion_window_end_date | channel           | conversions | revenue | spend   | roas    |
+| ---------------------------- | -------------------------- | ----------------- | ----------- | ------- | ------- | ------- |
+| 2022-06-03                   | 2022-08-01                 | Direct            | 699.8       | 699.8   | 10000.0 | 0.06997 |
+| 2022-06-03                   | 2022-08-01                 | Organic_Search    | 269.5       | 269.5   | 10000.0 | 0.02695 |
+| 2022-06-03                   | 2022-08-01                 | Paid_Search_Other | 50.4        | 50.4    | 10000.0 | 0.00504 |
+| 2022-06-03                   | 2022-08-01                 | Display_Other     | 21.3        | 21.3    | 10000.0 | 0.00213 |
+| 2022-06-03                   | 2022-08-01                 | Referral          | 12.4        | 12.4    | 10000.0 | 0.00123 |
+| 2022-06-03                   | 2022-08-01                 | Unmatched_Channel | 4.08        | 4.08    | 10000.0 | 0.00040 |
+| 2022-06-03                   | 2022-08-01                 | Video             | 1.5         | 1.5     | 10000.0 | 0.00014 |
 
 Note that 'revenue' in this table is now being calculated based on the form_submitted column in the events/conversions table, where a conversion will only ever have a value of 1. This is why the values for conversions and revenue are identical.
 

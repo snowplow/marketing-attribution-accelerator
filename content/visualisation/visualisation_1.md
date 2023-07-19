@@ -1,5 +1,5 @@
 +++
-title = "Example Table and Visualisation"
+title = "Example Table and Visualization"
 post = ""
 weight = 1
 +++
@@ -48,5 +48,5 @@ For comparison, below is an example of the output of running a traditional last-
 | 2022-06-03                | 2022-08-01              | Video             | (↓)  1       | (↓)  8.49    | 10000.0| (↓)  0.001|
 
 ***
-The above attribution data can also be visualised in your preferred BI tool, for example:
+The above attribution data can also be visualized in your preferred BI tool, for example:
 ![conversions_and_roas](../images/conversions_roas_browser.png)
