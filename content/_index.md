@@ -12,9 +12,11 @@ weight = 1
 
 This accelerator will show you how to perform attribution modeling on your Snowplow data, enabling you to attribute a portion of the value of a conversion to specific channels based on the conversion pathway. With this information, you can calculate the revenue per channel and Return on Advertising Spend (ROAS*) for each marketing channel, giving you a data-driven approach to making strategic marketing decisions such as channel investment and focus.
 
+> We will use the term channels throughout this Accelerator, however you are free to define these however you like and can include other things, e.g. specific campaigns.
+
 Here you will learn to:
 
-* Model and Visualise Snowplow data
+* Model and Visualize Snowplow data
   - using the [snowplow_fractribution](https://hub.getdbt.com/snowplow/snowplow_fractribution/latest/) dbt package and Python script
   - using our sample data (no need to have a working pipeline)
 * Set-up Snowplow Tracking and Enrichment to prepare your data sources
@@ -35,7 +37,7 @@ In an estimated minimum of half a day (~5.5 hours) you can achieve the following
 
 - **Upload -** Upload some sample data
 - **Model -** Configure and run the snowplow-fractribution data model
-- **Visualise -** Have a closer look at the Attribution Modeling report table to better understand the outcome of the analysis.
+- **Visualize -** Have a closer look at the Attribution Modeling report table to better understand the outcome of the analysis.
 - **Track -** Set-up and deploy tracking needed for your website or single page application for being able to perform attribution modeling
 - **Enrich -** Add an enrichment to your data
 - **Next steps -** Gain value from your own pipeline data
@@ -49,10 +51,10 @@ gantt
         30min       :upload, 00-00, 30m
         section 2. Model
         2h          :model, after upload, 2h
-        section 3. Visualise
-        10min          :visualise, after model, 10m
+        section 3. Visualize
+        10min          :visualize, after model, 10m
         section 4. Track
-        1h          :track, after visualise, 1h
+        1h          :track, after visualize, 1h
         section 5. Enrich
         1h          :enrich, after track, 1h
         section 6. Next steps
@@ -71,8 +73,8 @@ You don't necessarily need to follow all the steps in order. You could choose to
 - It is preferable to be familiar with the [snowplow-ecommerce](https://hub.getdbt.com/snowplow/snowplow_ecommerce/latest/) dbt package, that you can use to process your transaction events which are needed for the conversion source for the `snowplow-fractribution` package to work.
 
 **Modeling**
-- dbt CLI installed / dbt Cloud account available
-  - New dbt project created and configured
+- [dbt CLI](https://docs.getdbt.com/docs/core/installation) installed or [dbt Cloud](https://docs.getdbt.com/docs/cloud/about-cloud-setup) account available
+  - New dbt [project](https://docs.getdbt.com/docs/build/projects) created and configured
 - Python 3 Installed
 - Snowflake, Databricks, Redshift or BigQuery account and a user with access to create schemas and tables
 
