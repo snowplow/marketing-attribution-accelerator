@@ -13,21 +13,31 @@ As such, this tutorial assumes that you are already familiar with the `snowplow-
 Ensure that snowplow_web specific variables are set in your `dbt_project.yml` file that are appropriate for the provided sample data, particularly:
 
 ```
-snowplow__start_date: '2022-06-03'
-snowplow__enable_iab: false
-snowplow__enable_ua: false
-snowplow__enable_yauaa: false
-snowplow__events: 'atomic.sample_events_attribution'
-snowplow__backfill_limit_days: 60
+vars:
+  snowplow_web:
+    snowplow__start_date: '2022-06-03'
+    snowplow__enable_iab: false
+    snowplow__enable_ua: false
+    snowplow__enable_yauaa: false
+    snowplow__events: 'atomic.sample_events_attribution'
+    snowplow__backfill_limit_days: 60
 ```
 
 For further details you can have a look at our [docs](https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-configuration/web/) which contains descriptions and default values of each variable.
 
-#### **Step 2:** Run the package
-It is important to ensure that the schemas and tables this will build into will not overwrite any tables you wish to keep.
-You can change the schema in your `profiles.yml` if you wish to ensure nothing will be overwritten.
+#### **Step 2:** Add the selectors.yml to your project
 
-Run the snowplow_web package
+The web package provides a suite of suggested selectors to help run and test the models, these group our (and any custom) models together in a single identifier.
+
+These are defined in the [selectors.yml](https://github.com/snowplow/dbt-snowplow-web/blob/main/selectors.yml) file within the package, however to use these model selections you will need to copy this file into your own dbt project directory.
+
+This is a top-level file and therefore should sit alongside your `dbt_project.yml` file.
+
+#### **Step 3:** Run the web package
+> It is important to ensure that the schemas and tables this will build into will not overwrite any tables you wish to keep. You can change the schema in your `profiles.yml` if you wish to ensure nothing will be overwritten.
+
+Run the `snowplow_web` package by using the following command:
+
 ```
 dbt run --selector snowplow_web --full-refresh --vars 'snowplow__allow_refresh: true'
 ```

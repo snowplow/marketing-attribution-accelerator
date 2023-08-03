@@ -38,7 +38,15 @@ docker pull snowplow/fractribution:0.1.0
 ```
 #### Set your environment variables
 ***
-Add the necessary connection parameters to an environment file (e.g. `configs.env`) which will differ depending on the data warehouse you are using:
+Add the necessary connection parameters to an environment file (e.g. `configs.env`) which will differ depending on the data warehouse you are using. Regardless of your data warehouse, you need to provide the conversion window start and end date, the warehouse you are using (one of `snowflake`, `bigquery`, `databricks`, or `redshift`) and optionally the attribution model if you wish not to use the default, e.g.:
+
+```yml
+conversion_window_start_date='2022-06-03'
+conversion_window_end_date='2022-08-01'
+warehouse=snowflake
+attribution_model=first_touch
+```
+Then also include one of the following sets of variables:
 
 ##### BigQuery:
 ```yml
@@ -74,14 +82,6 @@ redshift_password=redshift_password
 redshift_schema=redshift_schema
 ```
 
-Additionally, regardless of your data warehouse, you need to provide the conversion window start and end date, the warehouse you are using (one of `snowflake`, `bigquery`, `databricks`, or `redshift`) and optionally the attribution model if you wish not to use the default, e.g.:
-
-```yml
-conversion_window_start_date='2022-06-03'
-conversion_window_end_date='2022-08-01'
-warehouse=snowflake
-attribution_model=first_touch
-```
 
 #### Run the image
 
