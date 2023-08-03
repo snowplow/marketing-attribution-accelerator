@@ -41,33 +41,33 @@ As for the `conversions_source` there are multiple options:
 
 1. One option would be to create your own custom snowplow-web incremental data model to process transaction/conversion events and add a reference to that model as the conversions_source variable, e.g. `snowplow__conversions_source: {{ ref('custom_conversions_model') }}`. The minimum requirement is to have the `derived_tstamp` and the `transaction_revenue` in the output for it to work as a source. To illustrate (through Snowflake) how this could look like in your custom `this_run` table:
 
-```sql
+    ```sql
 
-{{
-    config(
-        tags=["this_run"],
-        sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')),
+    {{
+        config(
+            tags=["this_run"],
+            sql_header=snowplow_utils.set_query_tag(var('snowplow__query_tag', 'snowplow_dbt')),
+        )
+    }}
+
+    with revenue as (
+        select
+            e.event_id,
+            e.derived_tstamp,
+            a.contexts_com_snowplowanalytics_snowplow_ecommerce_transaction_1[0]:revenue::decimal(7,2) as transaction_revenue
+
+        from {{ ref('snowplow_web_base_events_this_run') }} as e
+
+        where
+        event_name = 'snowplow_ecommerce_action'
+        and transaction_revenue is not null
     )
-}}
 
-with revenue as (
-    select
-        e.event_id,
-        e.derived_tstamp,
-        a.contexts_com_snowplowanalytics_snowplow_ecommerce_transaction_1[0]:revenue::decimal(7,2) as transaction_revenue
+    select *
 
-    from {{ ref('snowplow_web_base_events_this_run') }} as e
+    from revenue
 
-    where
-      event_name = 'snowplow_ecommerce_action'
-      and transaction_revenue is not null
-)
-
-select *
-
-from revenue
-
-```
+    ```
 
 2. The out of the box option is to use the `snowplow-ecommerce` data model's `snowplow_ecommerce_transaction_interactions` table which will generate the `transaction_revenue` field needed to calculate the total revenue from conversions. For more details on how to achieve this check out the [E-commerce accelerator](https://docs.snowplow.io/accelerators/ecommerce).
 
