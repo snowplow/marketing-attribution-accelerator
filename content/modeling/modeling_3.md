@@ -24,6 +24,8 @@ For the sake of simplicity we have selected the variables that you will most lik
 - `snowplow__path_transforms`: A dictionary of path transforms and their arguments (see below section **Path Transform Options**)
 - `snowplow__consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
 - `snowplow__channels_to_exclude`: List of channels to exclude from analysis (empty to keep all channels). For example, users may want to exclude the 'Direct' channel from the analysis.
+- `snowplow__page_views_source`: The page views table to use.
+- `snowplow__conversions_source`: The table to use for your conversion events.
 
 The default source schemas and tables used by the `snowplow_fractribution` package are:
 - *derived.snowplow_web_page_views* for the page_views data (page_views_source)
@@ -67,19 +69,6 @@ from revenue
 
 ```
 
-> Snowflake Only
-> If you are using Snowflake, you can automatically run the python scripts using Snowpark when running the dbt package. This is done using macros that create and run a stored procedure on Snowpark after the dbt models have completed.
-> To enable this you need to set some additional variables. For example, to enable this and use the `last_touch` attribution model:
-> ```yml
-> # dbt_project.yml
-> ...
-> vars:
->   snowplow_fractribution:
->    snowplow__run_python_script_in_snowpark: true
->    snowplow__attribution_model_for_snowpark: 'last_touch'
-> ```
-
-
 2. The out of the box option is to use the `snowplow-ecommerce` data model's `snowplow_ecommerce_transaction_interactions` table which will generate the `transaction_revenue` field needed to calculate the total revenue from conversions. For more details on how to achieve this check out the [E-commerce accelerator](https://docs.snowplow.io/accelerators/ecommerce).
 
 
@@ -93,15 +82,17 @@ Below is an example snippet of these variables in your `dbt_project.yml`:
 
 ```yml
 vars:
-  snowplow__conversion_window_start_date: '2022-06-03'
-  snowplow__conversion_window_end_date: '2022-08-01'
-  snowplow__conversion_hosts: ['a.com']
-  snowplow__path_lookback_steps: 0
-  snowplow__path_lookback_days: 30
-  snowplow__path_transforms: {'exposure_path': null}
-  snowplow__consider_intrasession_channels: false
-  snowplow__channels_to_exclude: []
-  snowplow__conversions_source: 'atomic.sample_events_attribution'
+  snowplow_fractribution:
+    snowplow__conversion_window_start_date: '2022-06-03'
+    snowplow__conversion_window_end_date: '2022-08-01'
+    snowplow__conversion_hosts: ['a.com']
+    snowplow__path_lookback_steps: 0
+    snowplow__path_lookback_days: 30
+    snowplow__path_transforms: {'exposure_path': null}
+    snowplow__consider_intrasession_channels: false
+    snowplow__channels_to_exclude: []
+    snowplow__page_views_source`: 'custom_schema_derived.snowplow_web_page_views'
+    snowplow__conversions_source: 'atomic.sample_events_attribution'
 ```
 
 **Path Transform Options**
@@ -113,9 +104,21 @@ There are six path transform options available:
 - `unique_path`: all events in a path are treated as unique (no reduction of complexity). Best for smaller datasets (small lookback window) without a lot of retargeting.
 - `first_path`: keep only the first occurrence of any event: `A → B → A` becomes `A → B`. Best for brand awareness marketing.
 - `frequency_path`: keep a count of the events' frequency: `A → A → B` becomes `A(2) → B`. Best when there is a lot of retargeting.
-- `remove_if_last_and_not_all`: requires a channel to be added as a parameter, which gets removed from the latest paths unless it removes the whole path as it is trying to reach a non-matching channel parameter: E.g target element: A path: `A → B → A → A` becomes `A → B`.
-- `remove_if_not_all`: requires a channel to be added as a parameter, which gets removed from the path altogether unless it would result in the whole path's removal: E.g target element: A path: `A → B → A → A` becomes `B​`.
+- `remove_if_last_and_not_all`: **requires a channel to be added as a parameter**, which gets removed from the latest paths unless it removes the whole path as it is trying to reach a non-matching channel parameter: E.g target element: A path: `A → B → A → A` becomes `A → B`.
+- `remove_if_not_all`: **requires a channel to be added as a parameter**, which gets removed from the path altogether unless it would result in the whole path's removal: E.g target element: A path: `A → B → A → A` becomes `B​`.
 
+
+> **Snowflake Only**
+> If you are using Snowflake, you can automatically run the python scripts using Snowpark when running the dbt package. This is done using macros that create and run a stored procedure on Snowpark after the dbt models have completed.
+> To enable this you need to set some additional variables. For example, to enable this and use the `last_touch` attribution model:
+> ```yml
+> # dbt_project.yml
+> ...
+> vars:
+>   snowplow_fractribution:
+>    snowplow__run_python_script_in_snowpark: true
+>    snowplow__attribution_model_for_snowpark: 'last_touch'
+> ```
 
 #### **Step 2:** Configure macros
 
@@ -132,7 +135,7 @@ The conversion_value macro specifies either a single column or a calculated valu
 
 If you wish to change this value, copy the `conversion_value.sql` file from the macros folder in the `snowplow_fractribution` package (at `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/conversion_value.sql`) and add it to the macros folder of your own dbt project. Update the value and save the file.
 
-**Configure the default channel_classification macro**
+**Configure the channel_classification macro (Optional)**
 
 The channel_classification macro is used to perform channel classifications. This can be altered to generate your expected channels if they differ from the channels generated in the default macro. It is highly recommended that you examine and configure this macro when using your own data, as the default values will not consider any custom marketing parameters.
 
