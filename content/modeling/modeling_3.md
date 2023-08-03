@@ -76,7 +76,7 @@ As for the `conversions_source` there are multiple options:
 
 ***
 
-You only need to set the variables for those that differ from the default.
+💡 You only need to set the variables for those that differ from the default.
 
 Below is an example snippet of these variables in your `dbt_project.yml`:
 
@@ -91,7 +91,7 @@ vars:
     snowplow__path_transforms: {'exposure_path': null}
     snowplow__consider_intrasession_channels: false
     snowplow__channels_to_exclude: []
-    snowplow__page_views_source`: 'custom_schema_derived.snowplow_web_page_views'
+    snowplow__page_views_source: 'custom_schema_derived.snowplow_web_page_views'
     snowplow__conversions_source: 'atomic.sample_events_attribution'
 ```
 
