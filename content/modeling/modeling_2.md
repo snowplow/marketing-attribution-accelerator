@@ -39,7 +39,8 @@ This is a top-level file and therefore should sit alongside your `dbt_project.ym
 Run the `snowplow_web` package by using the following command:
 
 ```
+dbt seed --select snowplow_web --full-refresh
 dbt run --selector snowplow_web --full-refresh --vars 'snowplow__allow_refresh: true'
 ```
 
-This should have created the table `<your_schema>_derived.snowplow_web_page_views`. This is the table that we will be using in the `snowplow_fractribution` package.
+This should have created the table `<your_schema>_derived.snowplow_web_page_views` in addition to the other tables from the web package. This is the table that we will be using in the `snowplow_fractribution` package.
