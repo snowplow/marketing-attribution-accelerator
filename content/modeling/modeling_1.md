@@ -11,11 +11,10 @@ In this section you are going to be adding our `snowplow_fractribution` package 
 #### **Step 1:** Add snowplow_fractribution package
 Add the latest snowplow_fractribution `packages.yml` file, which you may have to create at the same level as your `dbt_project.yml` file. The latest version of our package can be found [here](https://hub.getdbt.com/snowplow/snowplow_fractribution/latest/). You should already have the snowplow_web package present in the `packages.yml` file.
 
-
 ```yml
 packages:
   - package: snowplow/snowplow_fractribution
-    version: 0.3.3
+    version: 0.3.4
   - package: snowplow/snowplow_web
     version: 0.15.2
 ```

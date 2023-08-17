@@ -24,6 +24,7 @@ For the sake of simplicity we have selected the variables that you will most lik
 - `snowplow__path_transforms`: A dictionary of path transforms and their arguments (see below section **Path Transform Options**)
 - `snowplow__consider_intrasession_channels`: Boolean. If false, only considers the channel at the start of the session (i.e. first page view). If true, considers multiple channels in the conversion session as well as historically.
 - `snowplow__channels_to_exclude`: List of channels to exclude from analysis (empty to keep all channels). For example, users may want to exclude the 'Direct' channel from the analysis.
+- `snowplow__channels_to_include`: List of channels to include in the analysis (empty to keep all channels). For example, users may want to include the 'Direct' channel only in the analysis.
 - `snowplow__page_views_source`: The page views table to use.
 - `snowplow__conversions_source`: The table to use for your conversion events.
 
@@ -39,7 +40,11 @@ The page_views_source is straightforward in that it will need to match the deriv
 
 As for the `conversions_source` there are multiple options:
 
-1. One option would be to create your own custom snowplow-web incremental data model to process transaction/conversion events and add a reference to that model as the conversions_source variable, e.g. `snowplow__conversions_source: {{ ref('custom_conversions_model') }}`. The minimum requirement is to have the `derived_tstamp` and the `transaction_revenue` in the output for it to work as a source. To illustrate (through Snowflake) how this could look like in your custom `this_run` table:
+1. You can leave the default atomic events table as is then use the `conversion_clause()` and `conversion_value()` macros to define the field which contains the conversion value and the logic to filter on them only.
+
+2. To take advantage of our out of the box data modeling and avoid the potentially costly filter within the events table you may rather wish to use the in-built conversions modeling as part of our [web package](https://docs.snowplow.io/docs/modeling-your-data/modeling-your-data-with-dbt/dbt-models/dbt-web-data-model/conversions/). Once you have already defined this, you can set `snowplow__conversions_source` to `"{{ ref('snowplow_web_sessions') }}"` and adjust the `conversion_clause()` and `conversion_value()` to refer to your specific conversion column this will generate.
+
+3. Another of the box option is to use the `snowplow-ecommerce` data model's `snowplow_ecommerce_transaction_interactions` table which will generate the `transaction_revenue` field needed to calculate the total revenue from conversions. For more details on how to achieve this check out the [E-commerce accelerator](https://docs.snowplow.io/accelerators/ecommerce).
 
     ```sql
 
@@ -69,10 +74,7 @@ As for the `conversions_source` there are multiple options:
 
     ```
 
-2. The out of the box option is to use the `snowplow-ecommerce` data model's `snowplow_ecommerce_transaction_interactions` table which will generate the `transaction_revenue` field needed to calculate the total revenue from conversions. For more details on how to achieve this check out the [E-commerce accelerator](https://docs.snowplow.io/accelerators/ecommerce).
-
-
-3. For the sake of simplicity, if you use the sample data as a data source all you need to do is set `snowplow__conversions_source: 'atomic.sample_events_attribution'` in your `dbt_project.yml` as it comes with a `tr_total` field with the revenue data.
+4. For the sake of simplicity, if you use the sample data as a data source all you need to do is set `snowplow__conversions_source: 'atomic.sample_events_attribution'` in your `dbt_project.yml` as it comes with a `tr_total` field with the revenue data.
 
 ***
 
@@ -91,6 +93,7 @@ vars:
     snowplow__path_transforms: {'exposure_path': null}
     snowplow__consider_intrasession_channels: false
     snowplow__channels_to_exclude: []
+    snowplow__channels_to_include: []
     snowplow__page_views_source: 'custom_schema_derived.snowplow_web_page_views'
     snowplow__conversions_source: 'atomic.sample_events_attribution'
 ```
