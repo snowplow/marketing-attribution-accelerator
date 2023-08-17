@@ -15,7 +15,7 @@ Add the latest snowplow_fractribution `packages.yml` file, which you may have to
 ```yml
 packages:
   - package: snowplow/snowplow_fractribution
-    version: 0.3.3
+    version: 0.3.4
   - package: snowplow/snowplow_web
     version: 0.15.2
 ```
