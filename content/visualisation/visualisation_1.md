@@ -18,7 +18,7 @@ Below is an example of an attribution report table, which shows the calculated R
 | 2022-06-03                | 2022-08-01              | Unmatched_Channel | 4.08        | 544.6   | 10000.0| 0.05 |
 | 2022-06-03                | 2022-08-01              | Video             | 1.5         | 29.5    | 10000.0| 0.003|
 
-This table shows the ROAS figures for each channel during the conversion window specified. It also shows the conversions attributed to each channel, and the revenue associated with that channel. In our example we have a uniform spend ($10000) for each channel but you can substitute and join this to your own internal dataset to accurately account for spend and ROAS for your own marketing budgets, see [Next steps](/accelerators/fractribution/next_steps/next_steps_1/).
+This table shows the ROAS figures for each channel during the conversion window specified. It also shows the conversions attributed to each channel, and the revenue associated with that channel. In our example we have a uniform spend ($10000) for each channel but you can substitute and join this to your own internal dataset to accurately account for spend and ROAS for your own marketing budgets, see [Next steps](/accelerators/snowplow-fractribution/next_steps/next_steps_1/).
 
 ***
 

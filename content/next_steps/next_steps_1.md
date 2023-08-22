@@ -56,7 +56,7 @@ dbt test --selector snowplow_web_lean_tests
 
 #### **Step 5:** Attribution Modeling
 
-Now you can run the attribution modeling script on your own data that has been modeled by the snowplow_web package. If you need to, you can update the conversion start and end dates, and any other variables that may have changed (see [Modeling: Set-up and run dbt package](/accelerators/fractribution/modeling/modeling_1/) and [Modeling: Create Attribution report table](/accelerators/fractribution/modeling/modeling_2/) for a refresher on these variables).
+Now you can run the attribution modeling script on your own data that has been modeled by the snowplow_web package. If you need to, you can update the conversion start and end dates, and any other variables that may have changed (see [Modeling: Set-up and run dbt package](/accelerators/snowplow-fractribution/modeling/modeling_1/) and [Modeling: Create Attribution report table](/accelerators/snowplow-fractribution/modeling/modeling_2/) for a refresher on these variables).
 
 For the example, channel spend has been set at 10000 per channel. To modify this to use your own data, you will need to copy the channel_spend.sql macro from `[dbt_project_name]/dbt_packages/snowplow_fractribution/macros/channel_spend.sql` and add it to your own dbt project's macros folder. Update the sql in this macro to join the channel names to your ad spend per channel for the given window, e.g. (a simplified example):
 
